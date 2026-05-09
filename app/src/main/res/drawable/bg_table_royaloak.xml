@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Royal Oak: green felt with leather rim. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/ro_background" />
+        </shape>
+    </item>
+    <item android:left="20dp" android:right="20dp" android:top="40dp" android:bottom="100dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/ro_felt_rim" />
+        </shape>
+    </item>
+    <item android:left="40dp" android:right="40dp" android:top="60dp" android:bottom="120dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="500"
+                android:startColor="#1A6E45"
+                android:endColor="@color/ro_felt" />
+        </shape>
+    </item>
+</layer-list>

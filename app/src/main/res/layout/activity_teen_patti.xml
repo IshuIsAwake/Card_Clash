@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tableRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <!-- ============== TOP BAR ============== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/roomCodeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/CC.Text.Body"
+            android:textStyle="bold"
+            android:text="ROOM 000000"
+            android:letterSpacing="0.18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/variationPill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="Classic"
+            android:background="@drawable/bg_pot_indicator_royaloak"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btnReference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hands"
+                android:minWidth="0dp"
+                android:textSize="11sp"
+                android:padding="8dp"
+                android:layout_marginEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Help"
+                android:minWidth="0dp"
+                android:textSize="11sp"
+                android:padding="8dp"
+                android:layout_marginEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚙"
+                android:minWidth="0dp"
+                android:textSize="14sp"
+                android:padding="8dp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ============== OPPONENT ROW ============== -->
+    <LinearLayout
+        android:id="@+id/opponentRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp"
+        android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.example.cardclash.ui.common.PlayerSlotView
+            android:id="@+id/opponent1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <com.example.cardclash.ui.common.PlayerSlotView
+            android:id="@+id/opponent2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <com.example.cardclash.ui.common.PlayerSlotView
+            android:id="@+id/opponent3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- ============== CENTER POT ============== -->
+    <LinearLayout
+        android:id="@+id/centerPot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="POT"
+            android:textSize="11sp"
+            android:letterSpacing="0.2" />
+
+        <TextView
+            android:id="@+id/potAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAppearance="@style/CC.Text.Numeric"
+            android:textSize="28sp"
+            android:padding="8dp"
+            android:background="@drawable/bg_pot_indicator_royaloak" />
+
+        <TextView
+            android:id="@+id/stakeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stake: 10"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- ============== ACTION BUTTONS (RIGHT EDGE) ============== -->
+    <LinearLayout
+        android:id="@+id/actionPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <Button
+            android:id="@+id/btnSeen"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="See"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btnChaal"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Chaal"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btnRaise"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Raise"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btnShow"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Show"
+            android:layout_marginBottom="4dp" />
+
+        <Button
+            android:id="@+id/btnFold"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pack" />
+    </LinearLayout>
+
+    <!-- ============== LOCAL CARDS + STRIP ============== -->
+    <LinearLayout
+        android:id="@+id/localCardRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        app:layout_constraintBottom_toTopOf="@id/localStrip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/actionPanel">
+
+        <com.example.cardclash.ui.common.CardView
+            android:id="@+id/myCard1"
+            android:layout_width="56dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="6dp" />
+        <com.example.cardclash.ui.common.CardView
+            android:id="@+id/myCard2"
+            android:layout_width="56dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="6dp" />
+        <com.example.cardclash.ui.common.CardView
+            android:id="@+id/myCard3"
+            android:layout_width="56dp"
+            android:layout_height="80dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/localStrip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:background="@color/black_overlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/myName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <com.example.cardclash.ui.common.ChipStackView
+            android:id="@+id/myChips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp" />
+
+        <TextView
+            android:id="@+id/turnIndicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/handLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

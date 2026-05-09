@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1017331192767",
+    "firebase_url": "https://cardclash-c6bab-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cardclash-c6bab",
+    "storage_bucket": "cardclash-c6bab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017331192767:android:c6f14b2dcd9877d199070a",
+        "android_client_info": {
+          "package_name": "com.example.cardclash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017331192767-mo71d5ldra1bctt5og3br7sc3uhs5aon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMsBfzv7VVH-rdf0CPdamtbl4eDcO3lO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017331192767-mo71d5ldra1bctt5og3br7sc3uhs5aon.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
