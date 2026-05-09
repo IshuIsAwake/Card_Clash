@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Colors · Neon Pulse</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.grid-pal { display:grid; grid-template-columns: repeat(6,1fr); gap:8px; }
+.swatch { color: #0A0512; }
+.swatch.dark { color: #F0EAFF; }
+.section-h { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 700; letter-spacing: 0.10em; color: var(--np-cyan); margin: 0 0 6px; text-transform: uppercase; text-shadow: 0 0 12px rgba(0,212,255,0.5); }
+.sub { color: var(--fg-2); font-size: 12px; margin-bottom: 14px; font-family: 'Inter', sans-serif; }
+</style></head>
+<body class="card-root cc" data-theme="neon-pulse">
+  <div class="section-h">Neon Pulse</div>
+  <div class="sub">Dark glass · cyan / magenta / purple neon · monospace numerics.</div>
+  <div class="label-cap" style="margin-bottom:6px">Surfaces</div>
+  <div class="grid-pal" style="margin-bottom:14px">
+    <div class="swatch dark" style="background:#0A0512"><span class="name">bg</span><span class="hex">#0A0512</span></div>
+    <div class="swatch dark" style="background:#160A2A"><span class="name">surface</span><span class="hex">#160A2A</span></div>
+    <div class="swatch dark" style="background:#221140"><span class="name">surf-alt</span><span class="hex">#221140</span></div>
+    <div class="swatch dark" style="background:#1A0F33"><span class="name">felt</span><span class="hex">#1A0F33</span></div>
+    <div class="swatch" style="background:#F4F0FF"><span class="name">card-face</span><span class="hex">#F4F0FF</span></div>
+    <div class="swatch dark" style="background:#5C5078"><span class="name">fg-3</span><span class="hex">#5C5078</span></div>
+  </div>
+  <div class="label-cap" style="margin-bottom:6px">Neon · Text · Status</div>
+  <div class="grid-pal">
+    <div class="swatch" style="background:#00D4FF;box-shadow:inset 0 0 0 1px #00D4FF, 0 0 14px rgba(0,212,255,.4)"><span class="name">cyan</span><span class="hex">#00D4FF</span></div>
+    <div class="swatch" style="background:#FF1E8E;box-shadow:inset 0 0 0 1px #FF1E8E, 0 0 14px rgba(255,30,142,.4)"><span class="name">magenta</span><span class="hex">#FF1E8E</span></div>
+    <div class="swatch dark" style="background:#7C3CFF"><span class="name">purple</span><span class="hex">#7C3CFF</span></div>
+    <div class="swatch" style="background:#3FFF99"><span class="name">win</span><span class="hex">#3FFF99</span></div>
+    <div class="swatch" style="background:#FF4D6D"><span class="name">lose</span><span class="hex">#FF4D6D</span></div>
+    <div class="swatch" style="background:#FFCB3F"><span class="name">warn</span><span class="hex">#FFCB3F</span></div>
+  </div>
+</body></html>

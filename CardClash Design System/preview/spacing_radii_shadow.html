@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Radii & Shadow</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{height:80px;display:flex;align-items:flex-end;justify-content:center;padding:10px;font-family:'JetBrains Mono';font-size:11px;color:#fff}
+.t1{background:#26170D;border:1px solid #C9A24B;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.t2{background:#160A2A;border:1px solid #00D4FF;border-radius:14px;box-shadow:0 0 14px rgba(0,212,255,.45),0 0 0 1px #00D4FF}
+.t3{background:#2D2E33;border:2px solid #1B1C20;border-radius:2px;box-shadow:4px 4px 0 0 #000;color:#F0BD3A;font-family:'Press Start 2P';font-size:9px}
+.t4{background:#111;border:2px solid #fff;border-radius:0}
+</style>
+</head><body class="card-root cc" data-theme="dev">
+  <div class="label-cap" style="margin-bottom:10px">Surface radius + shadow per theme</div>
+  <div class="row4">
+    <div class="tile t1">14r · soft</div>
+    <div class="tile t2">14r · glow</div>
+    <div class="tile t3">2r · hard</div>
+    <div class="tile t4">0r · none</div>
+  </div>
+  <div style="margin-top:16px;color:#B0B0B0;font-family:'Inter';font-size:13px;line-height:1.5">
+    Royal Oak: hairline brass border + warm soft shadow. Neon Pulse: 1px outer glow + colored aura. Balatro: 2-pixel hard offset shadow, no blur. Developer: 2-pixel solid border, no shadow.
+  </div>
+</body></html>

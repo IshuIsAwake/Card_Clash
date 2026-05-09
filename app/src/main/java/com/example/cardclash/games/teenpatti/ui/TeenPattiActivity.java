@@ -1,26 +1,31 @@
 package com.example.cardclash.games.teenpatti.ui;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.cardclash.R;
-import com.example.cardclash.core.engine.HandResult;
 import com.example.cardclash.core.engine.GameEngine;
+import com.example.cardclash.core.engine.HandResult;
 import com.example.cardclash.core.hotseat.HotSeatConfig;
 import com.example.cardclash.core.models.Action;
 import com.example.cardclash.core.models.ActionResult;
 import com.example.cardclash.core.models.Card;
+import com.example.cardclash.core.models.GameType;
 import com.example.cardclash.core.models.Player;
 import com.example.cardclash.core.models.RoomConfig;
-import com.example.cardclash.core.models.GameType;
 import com.example.cardclash.core.theme.Theme;
 import com.example.cardclash.core.theme.ThemePrefs;
 import com.example.cardclash.games.GameDefinition;
@@ -30,52 +35,37 @@ import com.example.cardclash.games.teenpatti.engine.TeenPattiHandRanker;
 import com.example.cardclash.games.teenpatti.engine.TeenPattiVariation;
 import com.example.cardclash.ui.common.CardView;
 import com.example.cardclash.ui.common.ChipStackView;
-import com.example.cardclash.ui.common.PlayerSlotView;
 import com.example.cardclash.ui.common.ThemedActivity;
-import com.example.cardclash.ui.hotseat.PassGate;
+import com.example.cardclash.ui.hotseat.PassTheDeviceActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-/**
- * Teen Patti table activity.
- *
- * <p>Three modes:
- * <ul>
- *   <li><b>Demo</b> (no extras): you + 3 bots, on-device only.</li>
- *   <li><b>Hot seat</b> (extras "hotseat"=true + {@link HotSeatConfig} populated):
- *       all human players on this device, with a {@link PassGate} between turns.</li>
- *   <li><b>Networked</b> (room id present): not yet wired to engine state sync; lobby
- *       handoff exists but engine is host-local for now.</li>
- * </ul>
- */
 public class TeenPattiActivity extends ThemedActivity {
 
     public static final String EXTRA_ROOM_ID = "room_id";
     public static final String EXTRA_LOCAL_UID = "local_uid";
     public static final String EXTRA_HOTSEAT = "hotseat";
+    private static final int REQ_PASS = 4002;
 
     private TeenPattiEngine engine;
     private String localUid = "you";
+    private String pendingNextUid;
     private boolean hotSeat;
     private boolean pendingPass;
 
     private CardView c1, c2, c3;
-    private TextView roomCodeLabel, variationPill, potAmount, stakeLabel,
+    private TextView roomCodeLabel, variationPill, potEyebrow, potAmount, stakeLabel,
             myName, turnIndicator, handLabel;
     private ChipStackView myChips;
-    private PlayerSlotView opp1, opp2, opp3;
-    private Button btnSeen, btnChaal, btnRaise, btnShow, btnFold;
+    private LinearLayout opponentColumn;
+    private Button btnSeen, btnChaal, btnRaise, btnShow, btnFold, btnMenu;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teen_patti);
-
-        Theme t = ThemePrefs.activeTheme(this);
-        findViewById(R.id.tableRoot).setBackgroundResource(t.drawableTableBackground());
-
         bindViews();
+        applyThemeChrome();
 
         hotSeat = getIntent().getBooleanExtra(EXTRA_HOTSEAT, false) && HotSeatConfig.isActive();
         String roomId = getIntent().getStringExtra(EXTRA_ROOM_ID);
@@ -98,6 +88,10 @@ public class TeenPattiActivity extends ThemedActivity {
         GameDefinition def = GamesRegistry.get(GameType.TEEN_PATTI);
         RoomConfig cfg = new RoomConfig(GameType.TEEN_PATTI);
         def.ruleSchema.applyDefaults(cfg);
+        if (hotSeat) {
+            for (java.util.Map.Entry<String, Object> e : HotSeatConfig.get().ruleOverrides.entrySet())
+                cfg.put(e.getKey(), e.getValue());
+        }
 
         engine = (TeenPattiEngine) def.engineFactory.create();
         engine.initialize(cfg, roster, System.currentTimeMillis());
@@ -108,8 +102,7 @@ public class TeenPattiActivity extends ThemedActivity {
         wireActions();
 
         if (hotSeat) {
-            // Open the round with a pass-gate so player 1 picks up the device first.
-            showHandoffThen(engine.currentTurnUid(), "Tap to see your hand.");
+            launchPassGate(engine.currentTurnUid());
         } else {
             render();
         }
@@ -121,20 +114,96 @@ public class TeenPattiActivity extends ThemedActivity {
         c3 = findViewById(R.id.myCard3);
         roomCodeLabel = findViewById(R.id.roomCodeLabel);
         variationPill = findViewById(R.id.variationPill);
+        potEyebrow = findViewById(R.id.potEyebrow);
         potAmount = findViewById(R.id.potAmount);
         stakeLabel = findViewById(R.id.stakeLabel);
         myName = findViewById(R.id.myName);
         turnIndicator = findViewById(R.id.turnIndicator);
         handLabel = findViewById(R.id.handLabel);
         myChips = findViewById(R.id.myChips);
-        opp1 = findViewById(R.id.opponent1);
-        opp2 = findViewById(R.id.opponent2);
-        opp3 = findViewById(R.id.opponent3);
+        opponentColumn = findViewById(R.id.opponentColumn);
         btnSeen  = findViewById(R.id.btnSeen);
         btnChaal = findViewById(R.id.btnChaal);
         btnRaise = findViewById(R.id.btnRaise);
         btnShow  = findViewById(R.id.btnShow);
         btnFold  = findViewById(R.id.btnFold);
+        btnMenu  = findViewById(R.id.btnMenu);
+    }
+
+    private void applyThemeChrome() {
+        Theme t = ThemePrefs.activeTheme(this);
+        findViewById(R.id.tableRoot).setBackgroundResource(t.tableBg());
+        Typeface display = safeFont(t.fontDisplay());
+        Typeface heading = safeFont(t.fontHeading());
+        Typeface body = safeFont(t.fontBody());
+        Typeface mono = safeFont(t.fontMono());
+
+        roomCodeLabel.setTypeface(heading, Typeface.BOLD);
+        roomCodeLabel.setTextColor(t.colorFg1());
+        variationPill.setTypeface(heading, Typeface.BOLD);
+        variationPill.setTextColor(t.colorAccentOn());
+        GradientDrawable pillBg = new GradientDrawable();
+        pillBg.setShape(GradientDrawable.RECTANGLE);
+        pillBg.setCornerRadius(dp(9999));
+        pillBg.setColor(t.colorAccent());
+        variationPill.setBackground(pillBg);
+
+        potEyebrow.setTypeface(heading, Typeface.BOLD);
+        potEyebrow.setTextColor(t.colorFg2());
+        potAmount.setTypeface(mono, Typeface.BOLD);
+        potAmount.setTextColor(t.colorFg1());
+        GradientDrawable potBg = new GradientDrawable();
+        potBg.setShape(GradientDrawable.RECTANGLE);
+        potBg.setCornerRadius(dp((int) t.radiusSurfaceDp()));
+        potBg.setColor(t.colorSurface());
+        potBg.setStroke(dp(t.borderWidthDp()), t.colorAccent());
+        potAmount.setBackground(potBg);
+        stakeLabel.setTypeface(mono);
+        stakeLabel.setTextColor(t.colorFg2());
+
+        myName.setTypeface(heading, Typeface.BOLD);
+        myName.setTextColor(t.colorFg1());
+        turnIndicator.setTypeface(heading, Typeface.BOLD);
+        turnIndicator.setTextColor(t.colorFg1());
+        handLabel.setTypeface(body);
+        handLabel.setTextColor(t.colorFg2());
+
+        styleAccentButton(btnChaal, t);
+        styleAccentButton(btnRaise, t);
+        styleAccentButton(btnShow, t);
+        styleSecondaryButton(btnSeen, t);
+        styleSecondaryButton(btnFold, t);
+        styleSecondaryButton(btnMenu, t);
+    }
+
+    private void styleAccentButton(Button b, Theme t) {
+        b.setAllCaps(true);
+        b.setLetterSpacing(0.12f);
+        b.setTypeface(safeFont(t.fontHeading()), Typeface.BOLD);
+        b.setStateListAnimator(null);
+        b.setTextColor(t.colorAccentOn());
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(dp((int) t.radiusBtnDp()));
+        bg.setColor(t.colorAccent());
+        bg.setStroke(dp(t.borderWidthDp()), t.colorAccent());
+        b.setBackground(bg);
+        b.setMinHeight(dp(44));
+    }
+
+    private void styleSecondaryButton(Button b, Theme t) {
+        b.setAllCaps(true);
+        b.setLetterSpacing(0.12f);
+        b.setTypeface(safeFont(t.fontHeading()), Typeface.BOLD);
+        b.setStateListAnimator(null);
+        b.setTextColor(t.colorFg1());
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(dp((int) t.radiusBtnDp()));
+        bg.setColor(t.colorBg());
+        bg.setStroke(dp(t.borderWidthDp()), t.colorFg3());
+        b.setBackground(bg);
+        b.setMinHeight(dp(40));
     }
 
     private void wireActions() {
@@ -147,10 +216,22 @@ public class TeenPattiActivity extends ThemedActivity {
         });
         btnShow.setOnClickListener(v -> submit(TeenPattiEngine.ACTION_SHOW, true));
         btnFold.setOnClickListener(v -> submit(TeenPattiEngine.ACTION_FOLD, true));
+        btnMenu.setOnClickListener(v -> showMenu());
+    }
 
-        findViewById(R.id.btnReference).setOnClickListener(v -> showReference());
-        findViewById(R.id.btnHelp).setOnClickListener(v -> showHelp());
-        findViewById(R.id.btnSettings).setOnClickListener(v -> showSettings());
+    private void showMenu() {
+        String[] items = { "Hand rankings", "How to play", "Theme", "Exit" };
+        new AlertDialog.Builder(this)
+                .setTitle("Menu")
+                .setItems(items, (d, which) -> {
+                    switch (which) {
+                        case 0: showReference(); break;
+                        case 1: showHelp(); break;
+                        case 2: showThemePicker(); break;
+                        case 3: finish(); break;
+                    }
+                })
+                .show();
     }
 
     private void submit(String kind, boolean turnEnding) {
@@ -162,6 +243,7 @@ public class TeenPattiActivity extends ThemedActivity {
         if (hotSeat) {
             if (engine.isRoundOver()) { showRoundOverHotSeat(); return; }
             if (turnEnding) afterTurnHandoff();
+            else render();
         } else {
             getWindow().getDecorView().postDelayed(this::botTick, 700);
         }
@@ -170,20 +252,28 @@ public class TeenPattiActivity extends ThemedActivity {
     private void afterTurnHandoff() {
         String next = engine.currentTurnUid();
         if (next == null) { render(); return; }
-        showHandoffThen(next, null);
+        launchPassGate(next);
     }
 
-    private void showHandoffThen(String nextUid, String subtitle) {
+    private void launchPassGate(String nextUid) {
         pendingPass = true;
+        pendingNextUid = nextUid;
         renderHidden();
         Player next = engine.player(nextUid);
-        PassGate.show(this, next.displayName,
-                subtitle != null ? subtitle : "Stake: " + engine.currentStake() + " · Pot: " + engine.pot(),
-                () -> {
-                    localUid = nextUid;
-                    pendingPass = false;
-                    render();
-                });
+        int idx = engine.seatOrder().indexOf(nextUid) + 1;
+        startActivityForResult(
+                PassTheDeviceActivity.intent(this, next.displayName, idx, engine.seatOrder().size()),
+                REQ_PASS);
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_PASS) {
+            localUid = pendingNextUid;
+            pendingPass = false;
+            pendingNextUid = null;
+            render();
+        }
     }
 
     private void showRoundOverHotSeat() {
@@ -194,14 +284,13 @@ public class TeenPattiActivity extends ThemedActivity {
                 .setMessage(winner + " won the round.")
                 .setPositiveButton("Next round", (d, w) -> {
                     engine.nextRound();
-                    showHandoffThen(engine.currentTurnUid(), "Tap to see your hand.");
+                    launchPassGate(engine.currentTurnUid());
                 })
                 .setNegativeButton("Done", (d, w) -> finish())
                 .setCancelable(false)
                 .show();
     }
 
-    /** Naive bot policy: 60% chaal, 25% raise, 15% fold. Demo mode only. */
     private void botTick() {
         if (engine.isRoundOver()) {
             getWindow().getDecorView().postDelayed(() -> {
@@ -222,47 +311,29 @@ public class TeenPattiActivity extends ThemedActivity {
     }
 
     private void renderHidden() {
-        // Hide the outgoing player's cards/state before they hand off.
         c1.setVisibility(View.INVISIBLE);
         c2.setVisibility(View.INVISIBLE);
         c3.setVisibility(View.INVISIBLE);
         myName.setText("");
         myChips.setAmount(0);
-        turnIndicator.setText("Pass to the next player…");
+        turnIndicator.setText("");
         handLabel.setText("");
         btnSeen.setEnabled(false); btnChaal.setEnabled(false);
         btnRaise.setEnabled(false); btnShow.setEnabled(false); btnFold.setEnabled(false);
 
-        // Variation pill + pot still visible (no privacy concern there)
         TeenPattiVariation v = engine.variation();
-        variationPill.setText(v == null ? "—" : v.displayName());
+        variationPill.setText(v == null ? "—" : v.displayName().toUpperCase());
         potAmount.setText(String.valueOf(engine.pot()));
-        stakeLabel.setText("Stake: " + engine.currentStake());
-        bindOpponentsHidden();
-    }
-
-    private void bindOpponentsHidden() {
-        // In hot-seat we render every non-local player as an "opponent" (face-down) seat.
-        List<String> order = new ArrayList<>(engine.seatOrder());
-        order.remove(localUid);
-        PlayerSlotView[] slots = {opp1, opp2, opp3};
-        for (int i = 0; i < slots.length; i++) {
-            if (i >= order.size()) { slots[i].setVisibility(View.INVISIBLE); continue; }
-            slots[i].setVisibility(View.VISIBLE);
-            String uid = order.get(i);
-            Player p = engine.player(uid);
-            slots[i].bind(p, !engine.isFolded(uid));
-            slots[i].setActive(uid.equals(engine.currentTurnUid()));
-        }
+        stakeLabel.setText("STAKE  ·  " + engine.currentStake());
+        renderOpponents();
     }
 
     private void render() {
         if (pendingPass) { renderHidden(); return; }
         TeenPattiVariation v = engine.variation();
-        variationPill.setText(v == null ? "—" : v.displayName());
-
+        variationPill.setText(v == null ? "—" : v.displayName().toUpperCase());
         potAmount.setText(String.valueOf(engine.pot()));
-        stakeLabel.setText("Stake: " + engine.currentStake());
+        stakeLabel.setText("STAKE  ·  " + engine.currentStake());
 
         List<Card> mine = engine.handOf(localUid);
         boolean seen = engine.isSeen(localUid);
@@ -271,15 +342,15 @@ public class TeenPattiActivity extends ThemedActivity {
         bindCard(c3, mine, 2, seen);
 
         Player me = engine.player(localUid);
-        myName.setText(me == null ? "You" : me.displayName);
+        myName.setText(me == null ? "YOU" : me.displayName.toUpperCase());
         myChips.setAmount(me == null ? 0 : me.chips);
 
         boolean myTurn = localUid.equals(engine.currentTurnUid());
         turnIndicator.setText(engine.isRoundOver() ?
                 (engine.winnerUid() == null ? "—" :
-                        (engine.winnerUid().equals(localUid) ? "You won the round!" :
-                                engine.player(engine.winnerUid()).displayName + " won."))
-                : (myTurn ? "Your turn" : "Waiting…"));
+                        (engine.winnerUid().equals(localUid) ? "YOU WON THE ROUND" :
+                                engine.player(engine.winnerUid()).displayName.toUpperCase() + " WON"))
+                : (myTurn ? "YOUR TURN" : "WAITING…"));
 
         if (seen && !mine.isEmpty()) {
             HandResult h = TeenPattiHandRanker.eval3(mine,
@@ -289,16 +360,21 @@ public class TeenPattiActivity extends ThemedActivity {
             handLabel.setText("");
         }
 
-        bindOpponents();
+        renderOpponents();
 
         boolean inRound = !engine.isRoundOver();
         boolean folded = engine.isFolded(localUid);
         btnSeen.setEnabled(inRound && !seen && !folded);
+        btnSeen.setAlpha(btnSeen.isEnabled() ? 1f : 0.5f);
         btnChaal.setEnabled(inRound && myTurn && !folded);
+        btnChaal.setAlpha(btnChaal.isEnabled() ? 1f : 0.5f);
         btnRaise.setEnabled(inRound && myTurn && !folded);
+        btnRaise.setAlpha(btnRaise.isEnabled() ? 1f : 0.5f);
         btnFold.setEnabled(inRound && myTurn && !folded);
+        btnFold.setAlpha(btnFold.isEnabled() ? 1f : 0.5f);
         int active = activeCount();
         btnShow.setEnabled(inRound && myTurn && !folded && active == 2);
+        btnShow.setAlpha(btnShow.isEnabled() ? 1f : 0.5f);
 
         if (engine.isRoundOver()) {
             btnSeen.setEnabled(false); btnChaal.setEnabled(false);
@@ -318,34 +394,85 @@ public class TeenPattiActivity extends ThemedActivity {
         cv.bind(hand.get(idx), faceUp || engine.isRoundOver());
     }
 
-    private void bindOpponents() {
-        List<String> order = new ArrayList<>(engine.seatOrder());
-        order.remove(localUid);
-        PlayerSlotView[] slots = {opp1, opp2, opp3};
-        for (int i = 0; i < slots.length; i++) {
-            if (i >= order.size()) { slots[i].setVisibility(View.INVISIBLE); continue; }
-            slots[i].setVisibility(View.VISIBLE);
-            String uid = order.get(i);
+    private void renderOpponents() {
+        Theme t = ThemePrefs.activeTheme(this);
+        opponentColumn.removeAllViews();
+        Typeface heading = safeFont(t.fontHeading());
+        Typeface mono = safeFont(t.fontMono());
+        for (String uid : engine.seatOrder()) {
+            if (uid.equals(localUid)) continue;
             Player p = engine.player(uid);
+            boolean isTurn = uid.equals(engine.currentTurnUid());
             boolean folded = engine.isFolded(uid);
-            slots[i].bind(p, !folded);
-            slots[i].setActive(uid.equals(engine.currentTurnUid()));
+
+            LinearLayout slot = new LinearLayout(this);
+            slot.setOrientation(LinearLayout.HORIZONTAL);
+            slot.setGravity(Gravity.CENTER_VERTICAL);
+            slot.setPadding(dp(8), dp(6), dp(8), dp(6));
+            GradientDrawable bg = new GradientDrawable();
+            bg.setShape(GradientDrawable.RECTANGLE);
+            bg.setCornerRadius(dp((int) t.radiusBtnDp()));
+            bg.setColor(t.colorBg());
+            bg.setStroke(dp(t.borderWidthDp()), isTurn ? t.colorAccent() : t.colorFg3());
+            slot.setBackground(bg);
+            slot.setAlpha(folded ? 0.45f : 1f);
+
+            TextView avatar = new TextView(this);
+            avatar.setText(String.valueOf(p.displayName.charAt(0)).toUpperCase());
+            avatar.setTextColor(isTurn ? t.colorAccentOn() : t.colorFg1());
+            avatar.setTextSize(13);
+            avatar.setTypeface(heading, Typeface.BOLD);
+            avatar.setGravity(Gravity.CENTER);
+            int sz = dp(28);
+            GradientDrawable cb = new GradientDrawable();
+            cb.setShape(GradientDrawable.OVAL);
+            cb.setColor(isTurn ? t.colorAccent() : t.colorBg());
+            cb.setStroke(dp(t.borderWidthDp()), t.colorFg3());
+            avatar.setBackground(cb);
+            LinearLayout.LayoutParams alp = new LinearLayout.LayoutParams(sz, sz);
+            alp.setMargins(0, 0, dp(8), 0);
+            slot.addView(avatar, alp);
+
+            LinearLayout text = new LinearLayout(this);
+            text.setOrientation(LinearLayout.VERTICAL);
+
+            TextView name = new TextView(this);
+            name.setText(p.displayName.toUpperCase() + (folded ? " · FOLD" : ""));
+            name.setTextSize(11);
+            name.setLetterSpacing(0.10f);
+            name.setTypeface(heading, Typeface.BOLD);
+            name.setTextColor(t.colorFg1());
+            name.setMaxLines(1);
+            name.setEllipsize(android.text.TextUtils.TruncateAt.END);
+            text.addView(name);
+
+            TextView meta = new TextView(this);
+            meta.setText(p.chips + " chips");
+            meta.setTextSize(10);
+            meta.setTypeface(mono);
+            meta.setTextColor(t.colorFg3());
+            text.addView(meta);
+
+            LinearLayout.LayoutParams tlp = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+            slot.addView(text, tlp);
+
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.bottomMargin = dp(6);
+            opponentColumn.addView(slot, lp);
         }
     }
 
     private void showReference() {
         GameDefinition def = GamesRegistry.get(GameType.TEEN_PATTI);
+        StringBuilder sb = new StringBuilder();
+        for (String s : def.handRankingsReference) sb.append("• ").append(s).append("\n");
         new AlertDialog.Builder(this)
-                .setTitle("Hand Rankings")
-                .setMessage(String.join("\n• ", prepend("• ", def.handRankingsReference)))
+                .setTitle("Hand rankings")
+                .setMessage(sb.toString())
                 .setPositiveButton("Got it", null)
                 .show();
-    }
-
-    private static List<String> prepend(String pfx, List<String> in) {
-        List<String> out = new ArrayList<>();
-        for (String s : in) out.add(s);
-        return out;
     }
 
     private void showHelp() {
@@ -361,7 +488,7 @@ public class TeenPattiActivity extends ThemedActivity {
                 .show();
     }
 
-    private void showSettings() {
+    private void showThemePicker() {
         Theme[] all = com.example.cardclash.core.theme.ThemeRegistry.all().toArray(new Theme[0]);
         String[] names = new String[all.length];
         for (int i = 0; i < all.length; i++) names[i] = all[i].displayName();
@@ -373,4 +500,16 @@ public class TeenPattiActivity extends ThemedActivity {
                 })
                 .show();
     }
+
+    private Typeface safeFont(int fontRes) {
+        if (fontRes == 0) return Typeface.DEFAULT;
+        try {
+            Typeface tf = ResourcesCompat.getFont(this, fontRes);
+            return tf != null ? tf : Typeface.DEFAULT;
+        } catch (Throwable ignored) {
+            return Typeface.DEFAULT;
+        }
+    }
+
+    private int dp(int v) { return (int) (v * getResources().getDisplayMetrics().density); }
 }

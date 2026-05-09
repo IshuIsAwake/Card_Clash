@@ -2,6 +2,7 @@ package com.example.cardclash.core.theme;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.FontRes;
 import androidx.annotation.RawRes;
 import androidx.annotation.StyleRes;
 
@@ -10,21 +11,16 @@ import androidx.annotation.StyleRes;
  * and animation references. Every screen / view that renders themed content
  * resolves its inputs via this interface — no direct R.color.* lookups outside
  * the active Theme.
- *
- * Future themes register in {@link ThemeRegistry} and ship their own resources.
- * The interface is intentionally narrow at v1 — extend deliberately.
  */
 public interface Theme {
 
     ThemeId id();
     String displayName();
-    /** True if owned by every user in v1; future shop will gate this. */
     boolean owned();
 
-    /** AppCompat style applied at activity {@code setTheme()}. */
     @StyleRes int appStyle();
 
-    // -- Palette ----------------------------------------------------------
+    // -- Legacy palette (kept for back-compat with existing call sites) ---
     @ColorInt int colorBackground();
     @ColorInt int colorSurface();
     @ColorInt int colorTablefelt();
@@ -36,7 +32,25 @@ public interface Theme {
     @ColorInt int colorLose();
     @ColorInt int colorWarning();
 
-    // -- Drawables --------------------------------------------------------
+    // -- Design-system semantic palette (HANDOFF §5) ---------------------
+    @ColorInt default int colorBg()           { return colorBackground(); }
+    @ColorInt default int colorSurfaceAlt()   { return colorSurface(); }
+    @ColorInt default int colorFg1()          { return colorTextPrimary(); }
+    @ColorInt default int colorFg2()          { return colorTextSecondary(); }
+    @ColorInt int colorFg3();
+    @ColorInt int colorBorder();
+    @ColorInt int colorAccentOn();
+    @ColorInt int colorCardFace();
+    @ColorInt int colorCardRed();
+    @ColorInt int colorCardBlack();
+
+    // -- Typography (Downloadable Fonts via Google Fonts provider) -------
+    @FontRes int fontDisplay();
+    @FontRes int fontHeading();
+    @FontRes int fontBody();
+    @FontRes int fontMono();
+
+    // -- Drawables -------------------------------------------------------
     @DrawableRes int drawableTableBackground();
     @DrawableRes int drawableCardBack();
     @DrawableRes int drawableChipStack();
@@ -44,7 +58,21 @@ public interface Theme {
     @DrawableRes int drawablePotIndicator();
     @DrawableRes int drawableLogo();
 
-    // -- Sounds (raw) ----------------------------------------------------
+    @DrawableRes default int btnPrimaryBg()   { return drawableButtonPrimary(); }
+    @DrawableRes int btnSecondaryBg();
+    @DrawableRes int cardFaceBg();
+    @DrawableRes default int cardBackBg()     { return drawableCardBack(); }
+    @DrawableRes int chipBg(int denomination);
+    @DrawableRes default int tableBg()        { return drawableTableBackground(); }
+    @DrawableRes int pillSelector();
+
+    // -- Geometry --------------------------------------------------------
+    float radiusBtnDp();
+    float radiusCardDp();
+    float radiusSurfaceDp();
+    int   borderWidthDp();
+
+    // -- Sounds ----------------------------------------------------------
     @RawRes int soundCardFlip();
     @RawRes int soundChipClink();
     @RawRes int soundShuffle();
@@ -53,7 +81,6 @@ public interface Theme {
     @RawRes int soundLose();
     @RawRes int soundButtonTap();
 
-    // -- Lottie / animation asset paths -----------------------------------
     String lottieWinSequence();
     String lottieLossSequence();
 }

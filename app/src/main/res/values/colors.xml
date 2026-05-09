@@ -62,6 +62,30 @@
     <color name="dev_pressed">#444444</color>
 
     <!-- ============================================================ -->
+    <!-- BALATRO — pixel / CRT lane                                    -->
+    <!-- ============================================================ -->
+    <color name="bal_bg">#1B2D24</color>
+    <color name="bal_felt">#2A553C</color>
+    <color name="bal_felt_light">#3A6A4A</color>
+    <color name="bal_surface">#1F3027</color>
+    <color name="bal_surface_alt">#2A3D32</color>
+    <color name="bal_panel">#2D2E33</color>
+    <color name="bal_panel_edge">#1B1C20</color>
+    <color name="bal_orange">#E69020</color>
+    <color name="bal_red">#D85A3E</color>
+    <color name="bal_red_deep">#C0392B</color>
+    <color name="bal_blue">#4F6DDE</color>
+    <color name="bal_yellow">#F0BD3A</color>
+    <color name="bal_green">#7AC080</color>
+    <color name="bal_purple">#B45DA0</color>
+    <color name="bal_fg_1">#FFFFFF</color>
+    <color name="bal_fg_2">#C9C9C9</color>
+    <color name="bal_fg_3">#777777</color>
+    <color name="bal_card_face">#F5EFE2</color>
+    <color name="bal_card_red">#D85A3E</color>
+    <color name="bal_card_black">#1A1A1A</color>
+
+    <!-- ============================================================ -->
     <!-- SHARED                                                        -->
     <!-- ============================================================ -->
     <color name="transparent">#00000000</color>

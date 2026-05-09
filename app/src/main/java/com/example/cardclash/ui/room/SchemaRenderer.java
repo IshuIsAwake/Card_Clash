@@ -1,17 +1,24 @@
 package com.example.cardclash.ui.room;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
+
+import com.example.cardclash.R;
 import com.example.cardclash.core.models.RoomConfig;
 import com.example.cardclash.core.settings.RuleSchema;
 import com.example.cardclash.core.settings.Setting;
@@ -26,8 +33,9 @@ import java.util.List;
  * a setting to a game's schema causes the row to appear here automatically with
  * the right control type — that's the data-driven settings guarantee.
  *
- * <p>Selection state on int/enum pickers uses fill + border swap, never alpha
- * alone — testing which option is active must be unambiguous at a glance.
+ * <p>Selection state on int/enum pickers uses fill + border + text-color swap
+ * routed through theme accent / accent-on / fg-3 tokens. Never alpha-only —
+ * testing which option is active must be unambiguous at a glance.
  */
 public final class SchemaRenderer {
 
@@ -42,6 +50,7 @@ public final class SchemaRenderer {
     }
 
     private static View rowFor(Context ctx, Setting s, RoomConfig cfg) {
+        Theme t = ThemePrefs.activeTheme(ctx);
         LinearLayout row = new LinearLayout(ctx);
         row.setOrientation(LinearLayout.VERTICAL);
         int pad = dp(ctx, 12);
@@ -51,14 +60,14 @@ public final class SchemaRenderer {
         label.setText(s.label);
         label.setTextSize(14);
         label.setTypeface(label.getTypeface(), Typeface.BOLD);
-        label.setTextColor(ThemePrefs.activeTheme(ctx).colorTextPrimary());
+        label.setTextColor(t.colorFg1());
         row.addView(label);
 
         if (s.help != null) {
             TextView help = new TextView(ctx);
             help.setText(s.help);
             help.setTextSize(12);
-            help.setTextColor(ThemePrefs.activeTheme(ctx).colorTextSecondary());
+            help.setTextColor(t.colorFg2());
             help.setPadding(0, dp(ctx, 2), 0, dp(ctx, 4));
             row.addView(help);
         }
@@ -74,6 +83,7 @@ public final class SchemaRenderer {
     }
 
     private static View slider(Context ctx, Setting s, RoomConfig cfg) {
+        Theme t = ThemePrefs.activeTheme(ctx);
         LinearLayout box = new LinearLayout(ctx);
         box.setOrientation(LinearLayout.HORIZONTAL);
         box.setGravity(Gravity.CENTER_VERTICAL);
@@ -83,12 +93,16 @@ public final class SchemaRenderer {
         val.setText(String.valueOf(current));
         val.setMinWidth(dp(ctx, 56));
         val.setTextSize(15);
-        val.setTextColor(ThemePrefs.activeTheme(ctx).colorTextPrimary());
+        val.setTextColor(t.colorFg1());
         val.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
 
         SeekBar bar = new SeekBar(ctx);
         bar.setMax((s.max - s.min) / Math.max(1, s.step));
         bar.setProgress((int) ((current - s.min) / Math.max(1, s.step)));
+        bar.getProgressDrawable().setColorFilter(t.colorAccent(), PorterDuff.Mode.SRC_IN);
+        if (bar.getThumb() != null) {
+            bar.getThumb().setColorFilter(t.colorAccent(), PorterDuff.Mode.SRC_IN);
+        }
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override public void onProgressChanged(SeekBar seekBar, int p, boolean fromUser) {
                 long v = (long) s.min + (long) p * s.step;
@@ -169,9 +183,10 @@ public final class SchemaRenderer {
         return lp;
     }
 
-    /** Apply fill + border + text-color swap across a row of picker buttons. */
+    /** Selected: accent fill + accent-on text + accent border. Unselected: bg + fg-1 text + fg-3 border. */
     private static void refreshPickerSelection(LinearLayout box, Object selected) {
         Theme t = ThemePrefs.activeTheme(box.getContext());
+        int border = t.borderWidthDp();
         for (int i = 0; i < box.getChildCount(); i++) {
             View v = box.getChildAt(i);
             if (!(v instanceof Button)) continue;
@@ -179,10 +194,11 @@ public final class SchemaRenderer {
             boolean on = b.getTag() != null && b.getTag().equals(selected);
             GradientDrawable bg = new GradientDrawable();
             bg.setShape(GradientDrawable.RECTANGLE);
-            bg.setColor(on ? t.colorTextPrimary() : t.colorBackground());
-            bg.setStroke(dp(box.getContext(), 2), t.colorTextPrimary());
+            bg.setCornerRadius(dp(box.getContext(), (int) t.radiusBtnDp()));
+            bg.setColor(on ? t.colorAccent() : t.colorBg());
+            bg.setStroke(dp(box.getContext(), border), on ? t.colorAccent() : t.colorFg3());
             b.setBackground(bg);
-            b.setTextColor(on ? t.colorBackground() : t.colorTextPrimary());
+            b.setTextColor(on ? t.colorAccentOn() : t.colorFg1());
             b.setAlpha(1f);
         }
     }
@@ -222,10 +238,11 @@ public final class SchemaRenderer {
         state.setText(on ? "ON" : "OFF");
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
-        bg.setColor(on ? t.colorTextPrimary() : t.colorBackground());
-        bg.setStroke(dp(state.getContext(), 2), t.colorTextPrimary());
+        bg.setCornerRadius(dp(state.getContext(), (int) t.radiusBtnDp()));
+        bg.setColor(on ? t.colorAccent() : t.colorBg());
+        bg.setStroke(dp(state.getContext(), t.borderWidthDp()), on ? t.colorAccent() : t.colorFg3());
         state.setBackground(bg);
-        state.setTextColor(on ? t.colorBackground() : t.colorTextPrimary());
+        state.setTextColor(on ? t.colorAccentOn() : t.colorFg1());
     }
 
     @SuppressWarnings("unchecked")
@@ -254,15 +271,16 @@ public final class SchemaRenderer {
             row.setPadding(dp(ctx, 8), dp(ctx, 6), dp(ctx, 8), dp(ctx, 6));
             GradientDrawable bg = new GradientDrawable();
             bg.setShape(GradientDrawable.RECTANGLE);
-            bg.setColor(t.colorBackground());
-            bg.setStroke(dp(ctx, 2), t.colorTextPrimary());
+            bg.setCornerRadius(dp(ctx, (int) t.radiusBtnDp()));
+            bg.setColor(t.colorSurface());
+            bg.setStroke(dp(ctx, t.borderWidthDp()), t.colorBorder());
             row.setBackground(bg);
 
             TextView pos = new TextView(ctx);
             pos.setText((idx + 1) + ".");
             pos.setTextSize(13);
             pos.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-            pos.setTextColor(t.colorTextPrimary());
+            pos.setTextColor(t.colorFg2());
             pos.setMinWidth(dp(ctx, 28));
             row.addView(pos);
 
@@ -270,13 +288,14 @@ public final class SchemaRenderer {
             name.setText(ids.get(idx));
             name.setTextSize(14);
             name.setTypeface(name.getTypeface(), Typeface.BOLD);
-            name.setTextColor(t.colorTextPrimary());
+            name.setTextColor(t.colorFg1());
             LinearLayout.LayoutParams nlp = new LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
             row.addView(name, nlp);
 
-            Button up = arrowButton(ctx, "▲", t);
+            ImageButton up = iconButton(ctx, R.drawable.ic_chevron_up, t);
             up.setEnabled(idx > 0);
+            up.setAlpha(idx > 0 ? 1f : 0.4f);
             up.setOnClickListener(v -> {
                 if (idx > 0) {
                     String tmp = ids.remove(idx);
@@ -287,8 +306,9 @@ public final class SchemaRenderer {
             });
             row.addView(up);
 
-            Button down = arrowButton(ctx, "▼", t);
+            ImageButton down = iconButton(ctx, R.drawable.ic_chevron_down, t);
             down.setEnabled(idx < ids.size() - 1);
+            down.setAlpha(idx < ids.size() - 1 ? 1f : 0.4f);
             down.setOnClickListener(v -> {
                 if (idx < ids.size() - 1) {
                     String tmp = ids.remove(idx);
@@ -299,8 +319,9 @@ public final class SchemaRenderer {
             });
             row.addView(down);
 
-            Button rm = arrowButton(ctx, "✕", t);
+            ImageButton rm = iconButton(ctx, R.drawable.ic_close, t);
             rm.setEnabled(ids.size() > 1);
+            rm.setAlpha(ids.size() > 1 ? 1f : 0.4f);
             rm.setOnClickListener(v -> {
                 ids.remove(idx);
                 cfg.put(s.key, ids);
@@ -314,7 +335,6 @@ public final class SchemaRenderer {
             col.addView(row, rlp);
         }
 
-        // Add row: lets host re-add removed presets
         List<String> remaining = new ArrayList<>(s.options);
         remaining.removeAll(ids);
         if (!remaining.isEmpty()) {
@@ -322,16 +342,15 @@ public final class SchemaRenderer {
             addRow.setOrientation(LinearLayout.HORIZONTAL);
             addRow.setPadding(0, dp(ctx, 4), 0, 0);
             TextView addLabel = new TextView(ctx);
-            addLabel.setText("Add:");
-            addLabel.setTextColor(t.colorTextSecondary());
+            addLabel.setText("Add");
+            addLabel.setTextColor(t.colorFg2());
             addLabel.setTextSize(12);
             addLabel.setPadding(0, dp(ctx, 10), dp(ctx, 8), 0);
             addRow.addView(addLabel);
             LinearLayout chips = new LinearLayout(ctx);
             chips.setOrientation(LinearLayout.HORIZONTAL);
             for (String opt : remaining) {
-                Button b = arrowButton(ctx, "+ " + opt, t);
-                b.setEnabled(true);
+                Button b = addChip(ctx, opt, t);
                 b.setOnClickListener(v -> {
                     ids.add(opt);
                     cfg.put(s.key, ids);
@@ -347,28 +366,51 @@ public final class SchemaRenderer {
         }
     }
 
-    private static Button arrowButton(Context ctx, String text, Theme t) {
+    private static ImageButton iconButton(Context ctx, int drawableRes, Theme t) {
+        ImageButton b = new ImageButton(ctx);
+        Drawable icon = AppCompatResources.getDrawable(ctx, drawableRes);
+        if (icon != null) {
+            Drawable wrapped = DrawableCompat.wrap(icon.mutate());
+            DrawableCompat.setTint(wrapped, t.colorFg1());
+            b.setImageDrawable(wrapped);
+        }
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(dp(ctx, (int) t.radiusBtnDp()));
+        bg.setColor(t.colorBg());
+        bg.setStroke(dp(ctx, t.borderWidthDp()), t.colorFg3());
+        b.setBackground(bg);
+        b.setStateListAnimator(null);
+        b.setMinimumWidth(dp(ctx, 36));
+        b.setMinimumHeight(dp(ctx, 36));
+        int p = dp(ctx, 6);
+        b.setPadding(p, p, p, p);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                dp(ctx, 36), dp(ctx, 36));
+        lp.setMargins(0, 0, dp(ctx, 4), 0);
+        b.setLayoutParams(lp);
+        return b;
+    }
+
+    private static Button addChip(Context ctx, String text, Theme t) {
         Button b = new Button(ctx);
         b.setText(text);
         b.setAllCaps(false);
-        b.setTextSize(13);
+        b.setTextSize(12);
         b.setMinWidth(0);
-        b.setMinimumWidth(dp(ctx, 36));
-        b.setMinHeight(dp(ctx, 36));
-        b.setMinimumHeight(dp(ctx, 36));
-        b.setPadding(dp(ctx, 8), 0, dp(ctx, 8), 0);
+        b.setMinimumWidth(0);
+        b.setMinHeight(dp(ctx, 32));
+        b.setMinimumHeight(dp(ctx, 32));
+        b.setPadding(dp(ctx, 12), dp(ctx, 4), dp(ctx, 12), dp(ctx, 4));
         b.setStateListAnimator(null);
         b.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
-        bg.setColor(t.colorTextPrimary());
-        bg.setStroke(dp(ctx, 2), t.colorTextPrimary());
+        bg.setCornerRadius(dp(ctx, (int) t.radiusBtnDp()));
+        bg.setColor(t.colorBg());
+        bg.setStroke(dp(ctx, t.borderWidthDp()), t.colorFg3());
         b.setBackground(bg);
-        b.setTextColor(t.colorBackground());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 0, dp(ctx, 4), 0);
-        b.setLayoutParams(lp);
+        b.setTextColor(t.colorFg1());
         return b;
     }
 

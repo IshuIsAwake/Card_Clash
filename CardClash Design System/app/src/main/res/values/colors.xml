@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================ -->
+    <!-- ROYAL OAK — warm-club lane (default reference theme)         -->
+    <!-- Wood, deep green felt, brass, leather, lamp-yellow ambient.  -->
+    <!-- ============================================================ -->
+    <color name="ro_background">#1A0F08</color>          <!-- deep walnut -->
+    <color name="ro_surface">#26170D</color>             <!-- darker oak -->
+    <color name="ro_surface_elev">#3A2412</color>        <!-- raised oak panel -->
+    <color name="ro_felt">#0E3D24</color>                <!-- deep green felt -->
+    <color name="ro_felt_rim">#5A3A1F</color>            <!-- leather rim -->
+    <color name="ro_brass">#C9A24B</color>               <!-- brass accent -->
+    <color name="ro_brass_dim">#8C6E2E</color>
+    <color name="ro_amber">#E9B97A</color>               <!-- lamp warmth -->
+    <color name="ro_text_primary">#F4E9D6</color>        <!-- cream -->
+    <color name="ro_text_secondary">#B8A07C</color>      <!-- aged parchment -->
+    <color name="ro_text_hint">#7E6B4E</color>
+    <color name="ro_win">#7BC97F</color>                 <!-- soft emerald -->
+    <color name="ro_lose">#C24A3D</color>                <!-- burgundy -->
+    <color name="ro_warning">#E0A23A</color>
+    <color name="ro_card_face">#F8EFD9</color>           <!-- ivory cards -->
+    <color name="ro_card_red">#9E2A1F</color>
+    <color name="ro_card_black">#15110B</color>
+    <color name="ro_chip_red">#A23026</color>
+    <color name="ro_chip_blue">#2D4F8F</color>
+    <color name="ro_chip_green">#1F6E3F</color>
+    <color name="ro_chip_black">#15110B</color>
+    <color name="ro_chip_gold">#C9A24B</color>
+
+    <!-- ============================================================ -->
+    <!-- NEON PULSE — cyber-lounge lane                                -->
+    <!-- Dark glass, magenta/cyan/purple neon, monospace numerics.     -->
+    <!-- ============================================================ -->
+    <color name="np_background">#0A0512</color>
+    <color name="np_surface">#160A2A</color>
+    <color name="np_surface_elev">#221140</color>
+    <color name="np_felt">#1A0F33</color>
+    <color name="np_cyan">#00D4FF</color>
+    <color name="np_magenta">#FF1E8E</color>
+    <color name="np_purple">#7C3CFF</color>
+    <color name="np_text_primary">#F0EAFF</color>
+    <color name="np_text_secondary">#A89AC9</color>
+    <color name="np_text_hint">#5C5078</color>
+    <color name="np_win">#3FFF99</color>
+    <color name="np_lose">#FF4D6D</color>
+    <color name="np_warning">#FFCB3F</color>
+    <color name="np_card_face">#F4F0FF</color>
+
+    <!-- ============================================================ -->
+    <!-- DEVELOPER — plain dark + white loud controls (testing theme)  -->
+    <!-- ============================================================ -->
+    <color name="dev_background">#000000</color>
+    <color name="dev_surface">#111111</color>
+    <color name="dev_surface_elev">#1F1F1F</color>
+    <color name="dev_border">#FFFFFF</color>
+    <color name="dev_text_primary">#FFFFFF</color>
+    <color name="dev_text_secondary">#B0B0B0</color>
+    <color name="dev_text_hint">#666666</color>
+    <color name="dev_disabled_bg">#222222</color>
+    <color name="dev_disabled_text">#555555</color>
+    <color name="dev_pressed">#444444</color>
+
+    <!-- ============================================================ -->
+    <!-- SHARED                                                        -->
+    <!-- ============================================================ -->
+    <color name="transparent">#00000000</color>
+    <color name="black_overlay">#A6000000</color>
+    <color name="ripple_light">#33FFFFFF</color>
+    <color name="ripple_dark">#33000000</color>
+
+</resources>

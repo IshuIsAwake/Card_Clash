@@ -45,4 +45,27 @@ public class DevTheme implements Theme {
 
     @Override public String lottieWinSequence()  { return null; }
     @Override public String lottieLossSequence() { return null; }
+
+    // -- Design-system tokens (HANDOFF §5) --
+    @Override public int colorFg3()         { return 0xFF666666; }
+    @Override public int colorBorder()      { return 0xFFFFFFFF; }
+    @Override public int colorAccentOn()    { return 0xFF000000; }
+    @Override public int colorCardFace()    { return 0xFFFFFFFF; }
+    @Override public int colorCardRed()     { return 0xFFFF3344; }
+    @Override public int colorCardBlack()   { return 0xFF000000; }
+
+    @Override public int fontDisplay()  { return R.font.inter_bold; }
+    @Override public int fontHeading()  { return R.font.inter_bold; }
+    @Override public int fontBody()     { return R.font.inter; }
+    @Override public int fontMono()     { return R.font.jetbrains_mono; }
+
+    @Override public int btnSecondaryBg() { return R.drawable.bg_btn_secondary_dev; }
+    @Override public int cardFaceBg()     { return R.drawable.bg_card_face_dev; }
+    @Override public int chipBg(int d)    { return R.drawable.bg_chip_stack_dev; }
+    @Override public int pillSelector()   { return R.drawable.selector_pill_dev; }
+
+    @Override public float radiusBtnDp()     { return 0f; }
+    @Override public float radiusCardDp()    { return 4f; }
+    @Override public float radiusSurfaceDp() { return 0f; }
+    @Override public int   borderWidthDp()   { return 2; }
 }

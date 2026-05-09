@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.example.cardclash.themes.balatro.BalatroTheme;
 import com.example.cardclash.themes.dev.DevTheme;
 import com.example.cardclash.themes.neonpulse.NeonPulseTheme;
 import com.example.cardclash.themes.royaloak.RoyalOakTheme;
@@ -21,6 +22,7 @@ public final class ThemeRegistry {
         register(new DevTheme());
         register(new RoyalOakTheme());
         register(new NeonPulseTheme());
+        register(new BalatroTheme());
     }
 
     private ThemeRegistry() {}

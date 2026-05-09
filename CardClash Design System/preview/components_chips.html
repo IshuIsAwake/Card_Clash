@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Chips</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.col-c{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px;background:var(--bg);border-radius:6px}
+.tag{font-family:var(--font-heading);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-3)}
+.chip{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:700;font-size:11px;border:2px dashed rgba(255,255,255,.6);position:relative}
+.row-chips{display:flex;gap:4px;align-items:flex-end}
+[data-theme="balatro"] .chip{border-radius:50%;border:2px solid #1A1A1A;box-shadow:2px 2px 0 0 #000;font-family:'Press Start 2P';font-size:8px}
+[data-theme="dev"] .chip{border-color:#fff;background:#000;color:#fff}
+[data-theme="royal-oak"] .chip{box-shadow:inset 0 0 0 4px rgba(0,0,0,.15),0 4px 8px rgba(0,0,0,.4);border-style:dashed;border-width:3px}
+[data-theme="neon-pulse"] .chip{box-shadow:0 0 12px currentColor;border-style:solid;border-width:2px}
+.c1{background:#fff;color:#000}.c5{background:#A23026;color:#fff}.c10{background:#2D4F8F;color:#fff}.c25{background:#1F6E3F;color:#fff}.c100{background:#15110B;color:#C9A24B;border-color:#C9A24B}.c500{background:#7C3CFF;color:#fff}.c1000{background:#C9A24B;color:#15110B}
+</style>
+</head><body class="card-root cc" data-theme="dev">
+  <div class="label-cap" style="margin-bottom:8px">Denominations · 1 / 5 / 10 / 25 / 100 / 500 / 1000</div>
+  <div class="row4">
+    <div class="col-c" data-theme="royal-oak"><span class="tag" style="color:#B8A07C">Royal Oak</span><div class="row-chips"><div class="chip c1">1</div><div class="chip c5">5</div><div class="chip c25">25</div><div class="chip c100">100</div><div class="chip c1000">1K</div></div></div>
+    <div class="col-c" data-theme="neon-pulse"><span class="tag" style="color:#A89AC9">Neon Pulse</span><div class="row-chips"><div class="chip c1">1</div><div class="chip c5">5</div><div class="chip c25">25</div><div class="chip c100">100</div><div class="chip c500">500</div></div></div>
+    <div class="col-c" data-theme="balatro"><span class="tag" style="color:#F0BD3A">Balatro</span><div class="row-chips"><div class="chip c1">1</div><div class="chip c5">5</div><div class="chip c25">25</div><div class="chip c100">100</div><div class="chip c1000">1K</div></div></div>
+    <div class="col-c" data-theme="dev"><span class="tag">Developer</span><div class="row-chips"><div class="chip c1">1</div><div class="chip c5">5</div><div class="chip c25">25</div><div class="chip c100">100</div><div class="chip c500">500</div></div></div>
+  </div>
+</body></html>

@@ -40,4 +40,27 @@ public class RoyalOakTheme implements Theme {
 
     @Override public String lottieWinSequence()  { return null; }
     @Override public String lottieLossSequence() { return null; }
+
+    // -- Design-system tokens (HANDOFF §5) --
+    @Override public int colorFg3()         { return 0xFF7E6B4E; }
+    @Override public int colorBorder()      { return 0xFF8C6E2E; }
+    @Override public int colorAccentOn()    { return 0xFF1A0F08; }
+    @Override public int colorCardFace()    { return 0xFFF8EFD9; }
+    @Override public int colorCardRed()     { return 0xFF9E2A1F; }
+    @Override public int colorCardBlack()   { return 0xFF15110B; }
+
+    @Override public int fontDisplay()  { return R.font.playfair_display_bold; }
+    @Override public int fontHeading()  { return R.font.playfair_display; }
+    @Override public int fontBody()     { return R.font.lora; }
+    @Override public int fontMono()     { return R.font.lora_bold; }
+
+    @Override public int btnSecondaryBg() { return R.drawable.bg_btn_secondary_royaloak; }
+    @Override public int cardFaceBg()     { return R.drawable.bg_card_face_royaloak; }
+    @Override public int chipBg(int d)    { return R.drawable.bg_chip_stack_royaloak; }
+    @Override public int pillSelector()   { return R.drawable.selector_pill_royaloak; }
+
+    @Override public float radiusBtnDp()     { return 10f; }
+    @Override public float radiusCardDp()    { return 8f; }
+    @Override public float radiusSurfaceDp() { return 14f; }
+    @Override public int   borderWidthDp()   { return 1; }
 }

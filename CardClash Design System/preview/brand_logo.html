@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Brand · Logo</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.logo-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.logo-cell { padding: 22px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; border: var(--border-w) solid var(--border); background: var(--bg); border-radius: var(--r-surface); }
+.logo-cell svg { width: 56px; height: 56px; }
+.wordmark { display: flex; align-items: center; gap: 10px; }
+.wordmark .name { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.01em; color: var(--fg-1); }
+.theme-tag { font-family: var(--font-heading); font-size: 10px; letter-spacing: var(--tracking-cap); text-transform: uppercase; color: var(--fg-2); }
+[data-theme="balatro"] .wordmark .name { font-family: 'Press Start 2P', monospace; font-size: 14px; }
+[data-theme="neon-pulse"] .wordmark .name { color: var(--np-cyan); text-shadow: 0 0 10px rgba(0,212,255,0.5); }
+</style></head>
+<body class="card-root cc">
+  <div class="logo-strip">
+    <div class="logo-cell" data-theme="dev">
+      <object data="../assets/logo_cardclash.svg" type="image/svg+xml" width="56" height="56" aria-label="logo"></object>
+      <div class="wordmark"><div class="name">CardClash</div></div>
+      <div class="theme-tag">Developer</div>
+    </div>
+    <div class="logo-cell" data-theme="royal-oak">
+      <object data="../assets/logo_cardclash.svg" type="image/svg+xml" width="56" height="56" aria-label="logo"></object>
+      <div class="wordmark"><div class="name">CardClash</div></div>
+      <div class="theme-tag">Royal Oak</div>
+    </div>
+    <div class="logo-cell" data-theme="neon-pulse">
+      <object data="../assets/logo_cardclash.svg" type="image/svg+xml" width="56" height="56" aria-label="logo"></object>
+      <div class="wordmark"><div class="name">CardClash</div></div>
+      <div class="theme-tag">Neon Pulse</div>
+    </div>
+    <div class="logo-cell" data-theme="balatro">
+      <object data="../assets/logo_cardclash.svg" type="image/svg+xml" width="56" height="56" aria-label="logo"></object>
+      <div class="wordmark"><div class="name">CARDCLASH</div></div>
+      <div class="theme-tag">Balatro</div>
+    </div>
+  </div>
+</body></html>

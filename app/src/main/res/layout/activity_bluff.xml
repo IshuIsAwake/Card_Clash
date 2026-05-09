@@ -7,15 +7,15 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <!-- ============== TOP BAR ============== -->
+    <!-- TOP BAR: title left, single menu button right -->
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="6dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -27,106 +27,115 @@
             android:text="BLUFF · HOT SEAT"
             android:letterSpacing="0.16"
             android:textStyle="bold"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/ruleLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="11sp"
+            android:textSize="12sp"
+            android:letterSpacing="0.12"
             android:layout_marginStart="14dp" />
 
         <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
 
         <Button
-            android:id="@+id/btnReference"
-            style="@style/CC.Button.Dev.Secondary"
+            android:id="@+id/btnMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rules"
-            android:layout_marginEnd="4dp" />
-
-        <Button
-            android:id="@+id/btnHelp"
-            style="@style/CC.Button.Dev.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Help"
-            android:layout_marginEnd="4dp" />
-
-        <Button
-            android:id="@+id/btnSettings"
-            style="@style/CC.Button.Dev.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Theme" />
+            android:text="MENU" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/topDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dev_text_secondary"
-        app:layout_constraintTop_toBottomOf="@id/topBar" />
+    <!-- LEFT COLUMN: opponents stacked vertically -->
+    <ScrollView
+        android:id="@+id/opponentScroll"
+        android:layout_width="160dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <!-- ============== BOTTOM GROUP (composer + collapsible hand) ============== -->
+        <LinearLayout
+            android:id="@+id/opponentColumn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="6dp"
+            android:paddingBottom="10dp" />
+    </ScrollView>
+
+    <!-- CENTER PILE / CLAIM STACK -->
     <LinearLayout
-        android:id="@+id/bottomGroup"
-        android:layout_width="match_parent"
+        android:id="@+id/centerStack"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/dev_surface"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/handArea"
+        app:layout_constraintStart_toEndOf="@id/opponentScroll"
+        app:layout_constraintEnd_toStartOf="@id/actionColumn"
+        app:layout_constraintVertical_bias="0.45">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dev_text_secondary" />
-
-        <!-- Composer header: turn, selection, play -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/sequenceLabel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:text="NO ACTIVE SEQUENCE"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.20"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="6dp" />
+
+        <FrameLayout
+            android:id="@+id/pileStack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/pileMeta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="11sp"
+            android:letterSpacing="0.18"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/turnLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/resolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:gravity="center"
             android:paddingHorizontal="10dp"
-            android:paddingTop="6dp"
-            android:paddingBottom="2dp">
+            android:layout_marginTop="6dp" />
 
-            <TextView
-                android:id="@+id/turnLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textStyle="bold"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/selectionInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="11sp"
-                android:layout_marginEnd="10dp" />
-
-            <Button
-                android:id="@+id/btnPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PLAY"
-                android:enabled="false" />
-        </LinearLayout>
-
-        <!-- Rank picker row (visible only when starting a sequence) -->
         <HorizontalScrollView
             android:id="@+id/rankPickerScroll"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp">
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/rankPicker"
@@ -135,27 +144,34 @@
                 android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <!-- Locked-rank label (shown when sequence is active) -->
         <TextView
             android:id="@+id/lockedRankLabel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="6dp"
+            android:textSize="11sp"
+            android:letterSpacing="0.14"
+            android:layout_marginTop="6dp"
             android:visibility="gone" />
+    </LinearLayout>
 
-        <!-- Show/hide hand toggle -->
+    <!-- HAND AREA: bottom strip between opponent column and action column -->
+    <LinearLayout
+        android:id="@+id/handArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="14dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/opponentScroll"
+        app:layout_constraintEnd_toStartOf="@id/actionColumn">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp">
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/handCountLabel"
@@ -163,178 +179,133 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:letterSpacing="0.10" />
 
-            <Button
-                android:id="@+id/btnToggleHand"
-                style="@style/CC.Button.Dev.Secondary"
+            <TextView
+                android:id="@+id/selectionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="▼ Hide hand" />
+                android:text=""
+                android:textSize="11sp"
+                android:letterSpacing="0.10" />
         </LinearLayout>
 
-        <!-- Collapsible hand area -->
         <HorizontalScrollView
             android:id="@+id/handScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:paddingHorizontal="10dp"
-            android:paddingBottom="10dp">
+            android:layout_marginTop="6dp">
 
             <LinearLayout
                 android:id="@+id/handRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="14dp" />
         </HorizontalScrollView>
     </LinearLayout>
 
-    <!-- ============== LEFT: OPPONENTS ============== -->
-    <ScrollView
-        android:id="@+id/opponentScroll"
-        android:layout_width="160dp"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/topDivider"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomGroup">
-
-        <LinearLayout
-            android:id="@+id/opponentColumn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-
-    <View
-        android:id="@+id/leftDivider"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="@color/dev_text_secondary"
-        app:layout_constraintTop_toBottomOf="@id/topDivider"
-        app:layout_constraintBottom_toTopOf="@id/bottomGroup"
-        app:layout_constraintStart_toEndOf="@id/opponentScroll" />
-
-    <!-- ============== RIGHT: ACTION SIDEBAR ============== -->
-    <ScrollView
-        android:id="@+id/actionSidebar"
-        android:layout_width="140dp"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@id/topDivider"
-        app:layout_constraintBottom_toTopOf="@id/bottomGroup"
+    <!-- RIGHT ACTION COLUMN — vertically centered -->
+    <LinearLayout
+        android:id="@+id/actionColumn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="PLAY"
+            android:enabled="false"
+            android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/btnCallBluff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CALL BLUFF"
-                android:layout_marginBottom="8dp" />
+        <Button
+            android:id="@+id/btnCallBluff"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="CALL BLUFF"
+            android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/btnSkip"
-                style="@style/CC.Button.Dev.Secondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SKIP"
-                android:layout_marginBottom="8dp" />
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="PASS"
+            android:layout_marginBottom="8dp" />
 
-            <Button
-                android:id="@+id/btnClear"
-                style="@style/CC.Button.Dev.Secondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CLEAR PILE"
-                android:visibility="gone" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="CLEAR PILE"
+            android:visibility="gone" />
+    </LinearLayout>
 
-    <View
-        android:id="@+id/rightDivider"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="@color/dev_text_secondary"
-        app:layout_constraintTop_toBottomOf="@id/topDivider"
-        app:layout_constraintBottom_toTopOf="@id/bottomGroup"
-        app:layout_constraintEnd_toStartOf="@id/actionSidebar" />
-
-    <!-- ============== CENTER: SCROLLABLE PILE + CLAIM ============== -->
-    <ScrollView
-        android:id="@+id/centerScroll"
+    <!-- OPEN-CALL WINDOW OVERLAY -->
+    <LinearLayout
+        android:id="@+id/openCallOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbars="none"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@id/topDivider"
-        app:layout_constraintBottom_toTopOf="@id/bottomGroup"
-        app:layout_constraintStart_toEndOf="@id/leftDivider"
-        app:layout_constraintEnd_toStartOf="@id/rightDivider">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/openCallEyebrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OPEN CALL WINDOW"
+            android:letterSpacing="0.20"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/openCallClaim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.04"
+            android:gravity="center"
+            android:layout_marginTop="14dp" />
+
+        <TextView
+            android:id="@+id/openCallSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anyone calling? Tap your name. Otherwise pass to the next player."
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/openCallCallerRow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="horizontal"
+            android:gravity="center" />
 
-            <TextView
-                android:id="@+id/sequenceLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.2"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PILE"
-                android:textSize="10sp"
-                android:letterSpacing="0.3"
-                android:layout_marginTop="4dp" />
-
-            <TextView
-                android:id="@+id/pileCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textStyle="bold"
-                android:textSize="44sp"
-                android:fontFamily="monospace"
-                android:paddingHorizontal="22dp"
-                android:paddingVertical="8dp"
-                android:background="@drawable/bg_pot_indicator_dev"
-                android:layout_marginTop="2dp" />
-
-            <TextView
-                android:id="@+id/lastClaim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/resolution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="12sp"
-                android:layout_marginTop="6dp"
-                android:gravity="center" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/btnNoCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO CALL — PASS"
+            android:layout_marginTop="22dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

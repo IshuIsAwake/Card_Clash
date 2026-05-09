@@ -1,0 +1,300 @@
+/* CardClash Design System — colors_and_type.css
+ *
+ * Four themes share one set of SEMANTIC tokens (--bg, --fg-1, --accent, etc.)
+ * Pick a theme by adding `data-theme="royal-oak"|"neon-pulse"|"balatro"|"dev"`
+ * to a wrapping element. Default is `dev`.
+ *
+ * Source of truth for theme primitives: app/src/main/res/values/colors.xml
+ * + app/src/main/java/com/example/cardclash/themes/*.java in the codebase.
+ */
+
+/* ============================================================ */
+/* WEB FONTS — Google Fonts substitutes for the four themes      */
+/* ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lora:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap');
+
+/* ============================================================ */
+/* DEVELOPER — default                                            */
+/* ============================================================ */
+:root,
+[data-theme="dev"] {
+  /* Primitive palette */
+  --dev-bg:           #000000;
+  --dev-surface:      #111111;
+  --dev-surface-alt:  #1F1F1F;
+  --dev-border:       #FFFFFF;
+  --dev-fg-1:         #FFFFFF;
+  --dev-fg-2:         #B0B0B0;
+  --dev-fg-3:         #666666;
+  --dev-pressed:      #444444;
+  --dev-disabled-bg:  #222222;
+  --dev-disabled-fg:  #555555;
+
+  /* Semantic */
+  --bg:           var(--dev-bg);
+  --surface:      var(--dev-surface);
+  --surface-alt:  var(--dev-surface-alt);
+  --fg-1:         var(--dev-fg-1);
+  --fg-2:         var(--dev-fg-2);
+  --fg-3:         var(--dev-fg-3);
+  --border:       var(--dev-border);
+  --border-w:     2px;
+  --accent:       #FFFFFF;
+  --accent-on:    #000000;
+  --win:          #FFFFFF;
+  --lose:         #888888;
+  --warn:         #FFFFFF;
+  --card-face:    #FFFFFF;
+  --card-red:     #FF3344;
+  --card-black:   #000000;
+
+  /* Type */
+  --font-display:  'Inter', system-ui, sans-serif;
+  --font-heading:  'Inter', system-ui, sans-serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', ui-monospace, monospace;
+  --tracking-cap:  0.16em;
+  --tracking-body: 0;
+
+  /* Radius / shadow */
+  --r-btn:        0;
+  --r-card:       4px;
+  --r-surface:    0;
+  --r-input:      0;
+  --r-pill:       9999px;
+  --shadow-1:     none;
+  --shadow-2:     none;
+  --shadow-press: none;
+  --ease-in:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out:     cubic-bezier(0.4, 0, 1, 1);
+  --dur-fast:     120ms;
+  --dur-base:     180ms;
+  --dur-slow:     280ms;
+}
+
+/* ============================================================ */
+/* ROYAL OAK — warm club                                         */
+/* ============================================================ */
+[data-theme="royal-oak"] {
+  --ro-bg:          #1A0F08;
+  --ro-surface:     #26170D;
+  --ro-surface-alt: #3A2412;
+  --ro-felt:        #0E3D24;
+  --ro-felt-rim:    #5A3A1F;
+  --ro-brass:       #C9A24B;
+  --ro-brass-dim:   #8C6E2E;
+  --ro-amber:       #E9B97A;
+  --ro-fg-1:        #F4E9D6;
+  --ro-fg-2:        #B8A07C;
+  --ro-fg-3:        #7E6B4E;
+  --ro-win:         #7BC97F;
+  --ro-lose:        #C24A3D;
+  --ro-warn:        #E0A23A;
+  --ro-card-face:   #F8EFD9;
+  --ro-card-red:    #9E2A1F;
+  --ro-card-black:  #15110B;
+
+  --bg:           var(--ro-bg);
+  --surface:      var(--ro-surface);
+  --surface-alt:  var(--ro-surface-alt);
+  --felt:         var(--ro-felt);
+  --fg-1:         var(--ro-fg-1);
+  --fg-2:         var(--ro-fg-2);
+  --fg-3:         var(--ro-fg-3);
+  --border:       var(--ro-brass-dim);
+  --border-w:     1px;
+  --accent:       var(--ro-brass);
+  --accent-2:     var(--ro-amber);
+  --accent-on:    var(--ro-bg);
+  --win:          var(--ro-win);
+  --lose:         var(--ro-lose);
+  --warn:         var(--ro-warn);
+  --card-face:    var(--ro-card-face);
+  --card-red:     var(--ro-card-red);
+  --card-black:   var(--ro-card-black);
+
+  --font-display: 'Playfair Display', 'Georgia', serif;
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-body:    'Lora', 'Georgia', serif;
+  --font-mono:    'Lora', 'Georgia', serif;
+  --tracking-cap: 0.12em;
+
+  --r-btn:        10px;
+  --r-card:       8px;
+  --r-surface:    14px;
+  --r-input:      10px;
+  --shadow-1:     0 4px 16px rgba(0,0,0,0.4);
+  --shadow-2:     0 12px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(233,185,122,0.08);
+  --shadow-press: 0 0 0 2px var(--ro-brass) inset;
+  --dur-base:     220ms;
+  --dur-slow:     320ms;
+}
+
+/* ============================================================ */
+/* NEON PULSE — cyber lounge                                     */
+/* ============================================================ */
+[data-theme="neon-pulse"] {
+  --np-bg:          #0A0512;
+  --np-surface:     #160A2A;
+  --np-surface-alt: #221140;
+  --np-felt:        #1A0F33;
+  --np-cyan:        #00D4FF;
+  --np-magenta:     #FF1E8E;
+  --np-purple:      #7C3CFF;
+  --np-fg-1:        #F0EAFF;
+  --np-fg-2:        #A89AC9;
+  --np-fg-3:        #5C5078;
+  --np-win:         #3FFF99;
+  --np-lose:        #FF4D6D;
+  --np-warn:        #FFCB3F;
+  --np-card-face:   #F4F0FF;
+
+  --bg:           var(--np-bg);
+  --surface:      var(--np-surface);
+  --surface-alt:  var(--np-surface-alt);
+  --felt:         var(--np-felt);
+  --fg-1:         var(--np-fg-1);
+  --fg-2:         var(--np-fg-2);
+  --fg-3:         var(--np-fg-3);
+  --border:       var(--np-cyan);
+  --border-w:     1px;
+  --accent:       var(--np-cyan);
+  --accent-2:     var(--np-magenta);
+  --accent-on:    var(--np-bg);
+  --win:          var(--np-win);
+  --lose:         var(--np-lose);
+  --warn:         var(--np-warn);
+  --card-face:    var(--np-card-face);
+  --card-red:     var(--np-magenta);
+  --card-black:   #1A0F33;
+
+  --font-display: 'Orbitron', 'JetBrains Mono', monospace;
+  --font-heading: 'Orbitron', 'JetBrains Mono', monospace;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --tracking-cap: 0.20em;
+
+  --r-btn:        14px;
+  --r-card:       8px;
+  --r-surface:    14px;
+  --r-input:      12px;
+  --shadow-1:     0 0 0 1px var(--np-cyan), 0 0 18px rgba(0,212,255,0.35);
+  --shadow-2:     0 0 0 1px var(--np-magenta), 0 0 32px rgba(255,30,142,0.3);
+  --shadow-press: 0 0 0 2px var(--np-magenta) inset, 0 0 18px rgba(255,30,142,0.5);
+  --dur-fast:     100ms;
+  --dur-base:     160ms;
+  --dur-slow:     220ms;
+}
+
+/* ============================================================ */
+/* BALATRO — pixel / CRT                                          */
+/* ============================================================ */
+[data-theme="balatro"] {
+  --bal-bg:          #1B2D24;
+  --bal-felt:        #2A553C;
+  --bal-felt-light:  #3A6A4A;
+  --bal-surface:     #1F3027;
+  --bal-surface-alt: #2A3D32;
+  --bal-panel:       #2D2E33;
+  --bal-panel-edge:  #1B1C20;
+  --bal-blue:        #4F6DDE;
+  --bal-blue-pop:    #5DA0E0;
+  --bal-red:         #D85A3E;
+  --bal-red-deep:    #C0392B;
+  --bal-orange:      #E69020;
+  --bal-yellow:      #F0BD3A;
+  --bal-purple:      #B45DA0;
+  --bal-green:       #6FB668;
+  --bal-fg-1:        #FFFFFF;
+  --bal-fg-2:        #C9C9C9;
+  --bal-fg-3:        #777777;
+  --bal-card-face:   #F5EFE2;
+  --bal-card-red:    #D85A3E;
+  --bal-card-black:  #1A1A1A;
+
+  --bg:           var(--bal-bg);
+  --surface:      var(--bal-panel);
+  --surface-alt:  var(--bal-surface-alt);
+  --felt:         var(--bal-felt);
+  --fg-1:         var(--bal-fg-1);
+  --fg-2:         var(--bal-fg-2);
+  --fg-3:         var(--bal-fg-3);
+  --border:       var(--bal-panel-edge);
+  --border-w:     2px;
+  --accent:       var(--bal-orange);
+  --accent-2:     var(--bal-blue);
+  --accent-on:    #FFFFFF;
+  --win:          var(--bal-green);
+  --lose:         var(--bal-red);
+  --warn:         var(--bal-yellow);
+  --card-face:    var(--bal-card-face);
+  --card-red:     var(--bal-card-red);
+  --card-black:   var(--bal-card-black);
+
+  --font-display: 'Press Start 2P', 'VT323', monospace;
+  --font-heading: 'Press Start 2P', 'VT323', monospace;
+  --font-body:    'VT323', 'Press Start 2P', monospace;
+  --font-mono:    'VT323', 'Press Start 2P', monospace;
+  --tracking-cap: 0.04em;
+
+  --r-btn:        2px;
+  --r-card:       2px;
+  --r-surface:    2px;
+  --r-input:      2px;
+  --shadow-1:     2px 2px 0 0 #000;
+  --shadow-2:     4px 4px 0 0 #000;
+  --shadow-press: 1px 1px 0 0 #000;
+  --dur-base:     0ms;     /* pixel art convention: instant snaps */
+  --dur-slow:     120ms;   /* still allow card slides */
+}
+
+/* ============================================================ */
+/* SEMANTIC TYPE STYLES (apply to elements directly)              */
+/* ============================================================ */
+.cc-display,
+.cc h1,
+h1.cc {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.04;
+  letter-spacing: 0.02em;
+  color: var(--fg-1);
+  margin: 0;
+}
+.cc-h1 { font-family: var(--font-heading); font-weight: 700; font-size: 32px; line-height: 1.1; color: var(--fg-1); margin: 0; }
+.cc-h2 { font-family: var(--font-heading); font-weight: 600; font-size: 22px; line-height: 1.2; color: var(--fg-1); margin: 0; }
+.cc-h3 { font-family: var(--font-heading); font-weight: 600; font-size: 16px; line-height: 1.25; color: var(--fg-1); margin: 0; }
+
+.cc-eyebrow {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+.cc-body  { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 1.5; color: var(--fg-1); }
+.cc-body-2 { font-family: var(--font-body); font-weight: 400; font-size: 14px; line-height: 1.45; color: var(--fg-2); }
+.cc-caption { font-family: var(--font-body); font-weight: 500; font-size: 12px; line-height: 1.3; letter-spacing: 0.02em; color: var(--fg-3); }
+
+.cc-mono   { font-family: var(--font-mono); font-feature-settings: 'tnum'; }
+.cc-num    { font-family: var(--font-mono); font-weight: 700; font-feature-settings: 'tnum'; color: var(--fg-1); }
+
+.cc-btn {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  border-radius: var(--r-btn);
+}
+
+/* Helpful base for previews */
+.cc {
+  background: var(--bg);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+}

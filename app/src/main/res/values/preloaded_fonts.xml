@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/inter</item>
+        <item>@font/inter_bold</item>
+        <item>@font/lora</item>
+        <item>@font/lora_bold</item>
+        <item>@font/playfair_display</item>
+        <item>@font/playfair_display_bold</item>
+        <item>@font/orbitron</item>
+        <item>@font/orbitron_bold</item>
+        <item>@font/jetbrains_mono</item>
+        <item>@font/jetbrains_mono_bold</item>
+        <item>@font/press_start_2p</item>
+        <item>@font/vt323</item>
+    </array>
+</resources>

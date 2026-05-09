@@ -145,6 +145,48 @@
     </style>
 
     <!-- =========================================================== -->
+    <!-- BALATRO                                                      -->
+    <!-- =========================================================== -->
+    <style name="Theme.CardClash.Balatro" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/bal_orange</item>
+        <item name="colorPrimaryVariant">@color/bal_red_deep</item>
+        <item name="colorOnPrimary">@color/bal_fg_1</item>
+        <item name="colorSecondary">@color/bal_blue</item>
+        <item name="colorOnSecondary">@color/bal_fg_1</item>
+        <item name="android:colorBackground">@color/bal_bg</item>
+        <item name="colorSurface">@color/bal_panel</item>
+        <item name="colorOnSurface">@color/bal_fg_1</item>
+        <item name="android:windowBackground">@color/bal_bg</item>
+        <item name="android:statusBarColor">@color/bal_bg</item>
+        <item name="android:navigationBarColor">@color/bal_bg</item>
+        <item name="android:textColorPrimary">@color/bal_fg_1</item>
+        <item name="android:textColorSecondary">@color/bal_fg_2</item>
+        <item name="android:textColorHint">@color/bal_fg_3</item>
+        <item name="materialButtonStyle">@style/CC.Button.Balatro</item>
+    </style>
+
+    <style name="Theme.CardClash.Balatro.Splash">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/bal_bg</item>
+    </style>
+
+    <style name="Theme.CardClash.Balatro.Game">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <style name="CC.Button.Balatro" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/bg_btn_primary_balatro</item>
+        <item name="android:textColor">@color/bal_fg_1</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- =========================================================== -->
     <!-- BUTTON STYLES                                                -->
     <!-- =========================================================== -->
     <style name="CC.Button.RoyalOak" parent="Widget.MaterialComponents.Button">

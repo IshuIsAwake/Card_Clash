@@ -19,6 +19,10 @@
         android:theme="@style/Theme.CardClash.Dev"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
         <!-- AUTH -->
         <activity
             android:name=".ui.auth.SplashActivity"
@@ -48,32 +52,39 @@
         <activity
             android:name=".ui.home.ProfileActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorLandscape" />
 
         <!-- HOT SEAT (single-device) -->
         <activity
             android:name=".ui.hotseat.HotSeatSetupActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.hotseat.PassTheDeviceActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.CardClash.Dev.Game" />
 
         <!-- ROOM -->
         <activity
             android:name=".ui.room.CreateRoomActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".ui.room.PreGameSettingsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.room.JoinRoomActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".ui.room.LobbyActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorLandscape" />
 
         <!-- GAMES (landscape) -->
         <activity

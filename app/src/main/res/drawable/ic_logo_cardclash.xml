@@ -4,16 +4,30 @@
     android:height="120dp"
     android:viewportWidth="120"
     android:viewportHeight="120">
-    <!-- Crossed cards monogram -->
+    <!-- Brass card (back) -->
     <path
         android:fillColor="#C9A24B"
-        android:pathData="M30,20 h36 a6,6 0 0 1 6,6 v60 a6,6 0 0 1 -6,6 h-36 a6,6 0 0 1 -6,-6 v-60 a6,6 0 0 1 6,-6 z" />
+        android:pathData="M22,20 h56 a6,6 0 0 1 6,6 v66 a6,6 0 0 1 -6,6 h-56 a6,6 0 0 1 -6,-6 v-66 a6,6 0 0 1 6,-6 z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#8C6E2E"
+        android:strokeWidth="1.4"
+        android:pathData="M24,22 h52 a5,5 0 0 1 5,5 v62 a5,5 0 0 1 -5,5 h-52 a5,5 0 0 1 -5,-5 v-62 a5,5 0 0 1 5,-5 z" />
+    <!-- Green card (front, offset down/right) -->
     <path
         android:fillColor="#0E3D24"
-        android:strokeColor="#C9A24B"
-        android:strokeWidth="2"
-        android:pathData="M58,30 h36 a6,6 0 0 1 6,6 v60 a6,6 0 0 1 -6,6 h-36 a6,6 0 0 1 -6,-6 v-60 a6,6 0 0 1 6,-6 z" />
+        android:pathData="M42,32 h56 a6,6 0 0 1 6,6 v66 a6,6 0 0 1 -6,6 h-56 a6,6 0 0 1 -6,-6 v-66 a6,6 0 0 1 6,-6 z" />
     <path
-        android:fillColor="#C9A24B"
-        android:pathData="M76,68 l-8,-12 l-8,12 l3,0 l0,8 l10,0 l0,-8 z" />
+        android:fillColor="#00000000"
+        android:strokeColor="#C9A24B"
+        android:strokeWidth="1.4"
+        android:pathData="M44,34 h52 a5,5 0 0 1 5,5 v62 a5,5 0 0 1 -5,5 h-52 a5,5 0 0 1 -5,-5 v-62 a5,5 0 0 1 5,-5 z" />
+    <!-- Up-arrow inside green card -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#C9A24B"
+        android:strokeWidth="4"
+        android:strokeLineCap="square"
+        android:strokeLineJoin="miter"
+        android:pathData="M70,92 V64 M70,64 L60,74 M70,64 L80,74" />
 </vector>

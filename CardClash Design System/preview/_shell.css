@@ -1,0 +1,50 @@
+/* preview/_shell.css — base styles for design system preview cards.
+   Each card is sized ~700px wide. Drop into a flex/grid; cards are self-contained. */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.card-root {
+  width: 700px;
+  display: block;
+  background: var(--bg);
+  color: var(--fg-1);
+  padding: 28px;
+  font-family: var(--font-body);
+}
+.row { display: flex; align-items: center; gap: 16px; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.grid { display: grid; gap: 12px; }
+.muted { color: var(--fg-2); }
+.tiny  { color: var(--fg-3); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; }
+.label-cap {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: var(--tracking-cap);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.swatch {
+  width: 100%;
+  aspect-ratio: 1.6 / 1;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.2;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.swatch .name { font-weight: 700; }
+.swatch .hex  { opacity: 0.85; font-size: 9.5px; }

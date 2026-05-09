@@ -38,4 +38,27 @@ public class NeonPulseTheme implements Theme {
 
     @Override public String lottieWinSequence()  { return null; }
     @Override public String lottieLossSequence() { return null; }
+
+    // -- Design-system tokens (HANDOFF §5) --
+    @Override public int colorFg3()         { return 0xFF5C5078; }
+    @Override public int colorBorder()      { return 0xFF00D4FF; }
+    @Override public int colorAccentOn()    { return 0xFF0A0512; }
+    @Override public int colorCardFace()    { return 0xFFF4F0FF; }
+    @Override public int colorCardRed()     { return 0xFFFF1E8E; }
+    @Override public int colorCardBlack()   { return 0xFF1A0F33; }
+
+    @Override public int fontDisplay()  { return R.font.orbitron_bold; }
+    @Override public int fontHeading()  { return R.font.orbitron; }
+    @Override public int fontBody()     { return R.font.inter; }
+    @Override public int fontMono()     { return R.font.jetbrains_mono_bold; }
+
+    @Override public int btnSecondaryBg() { return R.drawable.bg_btn_secondary_neonpulse; }
+    @Override public int cardFaceBg()     { return R.drawable.bg_card_face_neonpulse; }
+    @Override public int chipBg(int d)    { return R.drawable.bg_chip_stack_neonpulse; }
+    @Override public int pillSelector()   { return R.drawable.selector_pill_neonpulse; }
+
+    @Override public float radiusBtnDp()     { return 14f; }
+    @Override public float radiusCardDp()    { return 8f; }
+    @Override public float radiusSurfaceDp() { return 14f; }
+    @Override public int   borderWidthDp()   { return 1; }
 }

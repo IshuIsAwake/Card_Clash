@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Colors · Developer</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.grid-pal { display:grid; grid-template-columns: repeat(6,1fr); gap:8px; }
+.swatch { color: #fff; border-radius: 0 !important; border: 2px solid #fff; }
+.swatch.light { color: #000; }
+.section-h { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 6px; letter-spacing: -0.01em; }
+.sub { color: #B0B0B0; font-size: 13px; margin-bottom: 14px; font-family: 'Inter', sans-serif; }
+.label-cap { color: #B0B0B0 !important; }
+</style></head>
+<body class="card-root cc" data-theme="dev">
+  <div class="section-h">Developer</div>
+  <div class="sub">Dark + white. High-contrast testing surface. Selection swaps fill, never alpha.</div>
+  <div class="label-cap" style="margin-bottom:6px">Surfaces</div>
+  <div class="grid-pal" style="margin-bottom:14px">
+    <div class="swatch" style="background:#000"><span class="name">bg</span><span class="hex">#000000</span></div>
+    <div class="swatch" style="background:#111"><span class="name">surface</span><span class="hex">#111111</span></div>
+    <div class="swatch" style="background:#1F1F1F"><span class="name">surf-alt</span><span class="hex">#1F1F1F</span></div>
+    <div class="swatch" style="background:#222"><span class="name">disabled</span><span class="hex">#222222</span></div>
+    <div class="swatch" style="background:#444"><span class="name">pressed</span><span class="hex">#444444</span></div>
+    <div class="swatch light" style="background:#fff"><span class="name">accent</span><span class="hex">#FFFFFF</span></div>
+  </div>
+  <div class="label-cap" style="margin-bottom:6px">Text · Status</div>
+  <div class="grid-pal">
+    <div class="swatch light" style="background:#fff"><span class="name">fg-1</span><span class="hex">#FFFFFF</span></div>
+    <div class="swatch" style="background:#B0B0B0;color:#000"><span class="name">fg-2</span><span class="hex">#B0B0B0</span></div>
+    <div class="swatch" style="background:#666"><span class="name">fg-3</span><span class="hex">#666666</span></div>
+    <div class="swatch" style="background:#555"><span class="name">disabled-fg</span><span class="hex">#555555</span></div>
+    <div class="swatch" style="background:#888"><span class="name">lose</span><span class="hex">#888888</span></div>
+    <div class="swatch light" style="background:#fff"><span class="name">win/warn</span><span class="hex">#FFFFFF</span></div>
+  </div>
+</body></html>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- =========================================================== -->
+    <!-- Base (no-action-bar). Activities pick a concrete theme       -->
+    <!-- (RoyalOak / NeonPulse) at runtime via ThemeApplier.          -->
+    <!-- =========================================================== -->
+    <style name="Theme.CardClash" parent="Theme.MaterialComponents.NoActionBar" />
+
+    <!-- =========================================================== -->
+    <!-- DEVELOPER (default; plain B&W testing theme)                 -->
+    <!-- =========================================================== -->
+    <style name="Theme.CardClash.Dev" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/dev_text_primary</item>
+        <item name="colorPrimaryVariant">@color/dev_text_primary</item>
+        <item name="colorOnPrimary">@color/dev_background</item>
+        <item name="colorSecondary">@color/dev_text_primary</item>
+        <item name="colorOnSecondary">@color/dev_background</item>
+        <item name="android:colorBackground">@color/dev_background</item>
+        <item name="colorSurface">@color/dev_surface</item>
+        <item name="colorOnSurface">@color/dev_text_primary</item>
+        <item name="android:windowBackground">@color/dev_background</item>
+        <item name="android:statusBarColor">@color/dev_background</item>
+        <item name="android:navigationBarColor">@color/dev_background</item>
+        <item name="android:textColorPrimary">@color/dev_text_primary</item>
+        <item name="android:textColorSecondary">@color/dev_text_secondary</item>
+        <item name="android:textColorHint">@color/dev_text_hint</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="materialButtonStyle">@style/CC.Button.Dev</item>
+        <item name="switchStyle">@style/CC.Switch.Dev</item>
+        <item name="android:switchStyle">@style/CC.Switch.Dev</item>
+    </style>
+
+    <style name="Theme.CardClash.Dev.Splash">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/dev_background</item>
+    </style>
+
+    <style name="Theme.CardClash.Dev.Game">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <!-- Primary: filled white. Use for the one canonical action on a screen. -->
+    <style name="CC.Button.Dev" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/bg_btn_primary_dev</item>
+        <item name="android:textColor">@color/dev_btn_text</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:minWidth">72dp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="elevation">0dp</item>
+        <item name="rippleColor">@color/dev_pressed</item>
+    </style>
+
+    <!-- Secondary: outlined, white text on dark. Use for nav, settings, supporting actions. -->
+    <style name="CC.Button.Dev.Secondary">
+        <item name="android:background">@drawable/bg_btn_secondary_dev</item>
+        <item name="android:textColor">@color/dev_btn_secondary_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="CC.Switch.Dev" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/dev_text_primary</item>
+        <item name="android:trackTint">@color/dev_surface_elev</item>
+    </style>
+
+
+    <!-- =========================================================== -->
+    <!-- ROYAL OAK                                                    -->
+    <!-- =========================================================== -->
+    <style name="Theme.CardClash.RoyalOak" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/ro_brass</item>
+        <item name="colorPrimaryVariant">@color/ro_brass_dim</item>
+        <item name="colorOnPrimary">@color/ro_background</item>
+        <item name="colorSecondary">@color/ro_amber</item>
+        <item name="colorOnSecondary">@color/ro_background</item>
+        <item name="android:colorBackground">@color/ro_background</item>
+        <item name="colorSurface">@color/ro_surface</item>
+        <item name="colorOnSurface">@color/ro_text_primary</item>
+        <item name="android:windowBackground">@color/ro_background</item>
+        <item name="android:statusBarColor">@color/ro_background</item>
+        <item name="android:navigationBarColor">@color/ro_background</item>
+        <item name="android:textColorPrimary">@color/ro_text_primary</item>
+        <item name="android:textColorSecondary">@color/ro_text_secondary</item>
+        <item name="android:textColorHint">@color/ro_text_hint</item>
+        <item name="android:fontFamily">serif</item>
+        <item name="materialButtonStyle">@style/CC.Button.RoyalOak</item>
+    </style>
+
+    <style name="Theme.CardClash.RoyalOak.Splash">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/ro_background</item>
+    </style>
+
+    <style name="Theme.CardClash.RoyalOak.Game">
+        <!-- game screens: hide system bars edge-to-edge -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <!-- =========================================================== -->
+    <!-- NEON PULSE                                                   -->
+    <!-- =========================================================== -->
+    <style name="Theme.CardClash.NeonPulse" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/np_cyan</item>
+        <item name="colorPrimaryVariant">@color/np_purple</item>
+        <item name="colorOnPrimary">@color/np_background</item>
+        <item name="colorSecondary">@color/np_magenta</item>
+        <item name="colorOnSecondary">@color/np_text_primary</item>
+        <item name="android:colorBackground">@color/np_background</item>
+        <item name="colorSurface">@color/np_surface</item>
+        <item name="colorOnSurface">@color/np_text_primary</item>
+        <item name="android:windowBackground">@color/np_background</item>
+        <item name="android:statusBarColor">@color/np_background</item>
+        <item name="android:navigationBarColor">@color/np_background</item>
+        <item name="android:textColorPrimary">@color/np_text_primary</item>
+        <item name="android:textColorSecondary">@color/np_text_secondary</item>
+        <item name="android:textColorHint">@color/np_text_hint</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="materialButtonStyle">@style/CC.Button.NeonPulse</item>
+    </style>
+
+    <style name="Theme.CardClash.NeonPulse.Splash">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/np_background</item>
+    </style>
+
+    <style name="Theme.CardClash.NeonPulse.Game">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <!-- =========================================================== -->
+    <!-- BUTTON STYLES                                                -->
+    <!-- =========================================================== -->
+    <style name="CC.Button.RoyalOak" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/ro_brass</item>
+        <item name="android:textColor">@color/ro_background</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="android:fontFamily">serif</item>
+        <item name="android:letterSpacing">0.06</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CC.Button.NeonPulse" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/np_cyan</item>
+        <item name="android:textColor">@color/np_background</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:letterSpacing">0.10</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- =========================================================== -->
+    <!-- TEXT APPEARANCES                                             -->
+    <!-- =========================================================== -->
+    <style name="CC.Text.Display" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="CC.Text.Heading" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <style name="CC.Text.Body" parent="TextAppearance.MaterialComponents.Body1" />
+
+    <style name="CC.Text.Numeric" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CC.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">6dp</item>
+    </style>
+
+    <style name="CC.Input" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+    </style>
+
+</resources>

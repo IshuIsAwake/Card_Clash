@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Playing cards</title>
+<link rel="stylesheet" href="_shell.css"/>
+<style>
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.col-c{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px;background:var(--bg);border-radius:6px}
+.tag{font-family:var(--font-heading);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-3)}
+.card{width:84px;height:118px;border-radius:8px;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:6px 8px;font-family:'Lora',serif;font-weight:700;background:#F8EFD9;color:#15110B;box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.card .pip-tl{font-size:14px;line-height:1}
+.card .pip-br{font-size:14px;line-height:1;align-self:flex-end;transform:rotate(180deg)}
+.card .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px}
+.card.red{color:#9E2A1F}
+.card.heart .center::before,.card.heart .pip-tl::after,.card.heart .pip-br::after{content:'♥'}
+.row-cards{display:flex;gap:6px}
+[data-theme="neon-pulse"] .card{background:#F4F0FF;color:#1A0F33;border:1px solid #00D4FF;box-shadow:0 0 12px rgba(0,212,255,.4)}
+[data-theme="neon-pulse"] .card.red{color:#FF1E8E}
+[data-theme="balatro"] .card{background:#F5EFE2;color:#1A1A1A;border-radius:2px;border:2px solid #1A1A1A;box-shadow:2px 2px 0 0 #000;font-family:'Press Start 2P';font-size:10px;image-rendering:pixelated}
+[data-theme="balatro"] .card.red{color:#D85A3E}
+[data-theme="balatro"] .card .center{font-size:30px}
+[data-theme="balatro"] .card .pip-tl,[data-theme="balatro"] .card .pip-br{font-size:10px}
+[data-theme="dev"] .card{background:#fff;color:#000;border:2px solid #fff;border-radius:4px;box-shadow:none}
+[data-theme="dev"] .card.red{color:#FF3344}
+[data-theme="royal-oak"] .card{border:1px solid rgba(140,110,46,.25)}
+.back{background:repeating-linear-gradient(45deg,#0E3D24 0 6px,#15110B 6px 12px) !important;color:transparent !important;border:1px solid #C9A24B}
+[data-theme="neon-pulse"] .back{background:repeating-linear-gradient(45deg,#160A2A 0 6px,#221140 6px 12px) !important;border:1px solid #00D4FF}
+[data-theme="balatro"] .back{background:repeating-linear-gradient(45deg,#D85A3E 0 6px,#1A1A1A 6px 12px) !important;border:2px solid #1A1A1A}
+[data-theme="dev"] .back{background:#000 !important;border:2px solid #fff;color:transparent !important}
+</style>
+</head><body class="card-root cc" data-theme="dev">
+  <div class="label-cap" style="margin-bottom:10px">Playing cards · A♠ K♥ Q♦ + back</div>
+  <div class="row4">
+    <div class="col-c" data-theme="royal-oak"><span class="tag" style="color:#B8A07C">Royal Oak</span>
+      <div class="row-cards"><div class="card"><div class="pip-tl">A♠</div><div class="center">♠</div><div class="pip-br">A♠</div></div>
+      <div class="card red"><div class="pip-tl">K♥</div><div class="center">♥</div><div class="pip-br">K♥</div></div>
+      <div class="card back"></div></div></div>
+    <div class="col-c" data-theme="neon-pulse"><span class="tag" style="color:#A89AC9">Neon Pulse</span>
+      <div class="row-cards"><div class="card"><div class="pip-tl">A♠</div><div class="center">♠</div><div class="pip-br">A♠</div></div>
+      <div class="card red"><div class="pip-tl">K♥</div><div class="center">♥</div><div class="pip-br">K♥</div></div>
+      <div class="card back"></div></div></div>
+    <div class="col-c" data-theme="balatro"><span class="tag" style="color:#F0BD3A">Balatro</span>
+      <div class="row-cards"><div class="card"><div class="pip-tl">A♠</div><div class="center">♠</div><div class="pip-br">A♠</div></div>
+      <div class="card red"><div class="pip-tl">K♥</div><div class="center">♥</div><div class="pip-br">K♥</div></div>
+      <div class="card back"></div></div></div>
+    <div class="col-c" data-theme="dev"><span class="tag">Developer</span>
+      <div class="row-cards"><div class="card"><div class="pip-tl">A♠</div><div class="center">♠</div><div class="pip-br">A♠</div></div>
+      <div class="card red"><div class="pip-tl">K♥</div><div class="center">♥</div><div class="pip-br">K♥</div></div>
+      <div class="card back"></div></div></div>
+  </div>
+</body></html>
