@@ -1,124 +1,126 @@
 # CardClash — Next Session Instructions
 
-Read `memory.md` first for the full inventory of what already exists. Read
+Read `memory.md` first for the inventory of what already exists. Read
 `instructions.md` for the authoritative spec. This file = what to do next.
 
+Last touched: 2026-05-10. The current build is installable on the user's
+device (`SM-S921B`, Android 16). Poker is the flagship and is fully playable
+in pass-and-play and demo-vs-bots. Teen Patti is also fully playable. Bluff
+is still a stub.
+
 ---
 
-## Immediate goals (in order)
+## Open issues from the user's last play session
 
-### 1. Developer theme (B&W, plain, ease-of-use focused)
+User's latest feedback may include any of these — do NOT assume they are
+resolved without verifying in the running app:
 
-**Why**: User cannot test the app effectively right now. On the launched APK,
-some buttons were not selectable / did not respond. State of toggles, sliders,
-and selected options is not obvious enough at a glance. User needs a theme
-optimized purely for *testing every button and feature*, not for looks.
+1. **Pot-display fit** — pot number font reduced to 26sp, community cards
+   shrunk to 50×72dp; should fit, but verify on the actual device.
+2. **Raise dialog overflow** — `BetBuilder` is now wrapped in a `ScrollView`
+   inside an `AlertDialog`, with RAISE/CANCEL on the dialog's button bar so
+   they're always visible. Verify on the device.
+3. **System bar overlap** — `PokerActivity` and `PassTheDeviceActivity` now
+   use immersive mode (status + nav bars hidden, swipe to reveal transient).
+   Verify the screen edges aren't being clipped.
+4. **Pass screen continue button missing** — fixed: it had `layout_width="0dp"`
+   inside a LinearLayout (ConstraintLayout-only `constraintWidth_percent` was
+   silently ignored, so the button was 0px wide). Now `match_parent` with
+   `minHeight=56dp`. Verify visible.
+5. **Back-press confirmation** — wired via `OnBackPressedDispatcher`. Test
+   that pressing back gestures on Android 13+ shows the "Leave game?" dialog.
 
-**Constraints from the user**:
-- Pure black-and-white. No gradients, no decorative drawables, no ornament.
-- Buttons, sliders, toggles must be visually loud — large hit-targets, hard
-  borders, obvious pressed/disabled states.
-- It must be **immediately obvious** when a setting is toggled / a value is
-  selected. Currently `SchemaRenderer`'s `intPicker` and `enumPicker` use only
-  alpha (1.0 vs 0.5) to show selection — that is too subtle. Use background
-  fill + border swap.
-- Skeleton (layouts, view IDs, structure) stays the same so teammates can
-  swap in their own themes without breaking. Other themes (Royal Oak,
-  Neon Pulse) untouched — those are the team's polish work.
-- "Looks don't matter much to me. I just want ease of use." — design accordingly.
+If user reports any of these are still broken, debug from the screenshot
+they provide. Don't take "fixed" on the previous turn as ground truth.
 
-**Implementation outline** (do not start coding until user confirms):
-- Add `ThemeId.DEVELOPER`, `themes/dev/DevTheme.java`, `Theme.CardClash.Dev[.Splash|.Game]` styles.
-- Plain white background, black text, black 2dp borders on every interactive
-  element. No drawable shadows, no gradients. Sans-serif default.
-- Custom selectors for buttons/toggles/etc. with very loud pressed and
-  selected states (e.g. selected = solid black bg + white text; unselected =
-  white bg + black text + border).
-- Set as the default theme if user opens the app for the first time? Probably
-  yes for now — easier testing. Confirm with user.
-- Audit `SchemaRenderer` and the in-game action buttons for unreachable /
-  unstyled controls. Fix any "I couldn't tap that" issues uncovered.
+---
 
-### 2. Hot seat mode (single-device pass-and-play)
+## Carried-over goals (still open from prior sessions)
 
-**Why**: User wants to test rule logic with multiple human players without
-Firebase, since they can't configure Firebase yet (project is owned by a
-friend). Also a useful demo fallback if Firebase is flaky on demo day.
+### 1. Bluff engine + UI
 
-**Approach**:
-- Add an entry point on the Home screen — e.g. a "Hot Seat" button — that
-  bypasses the room/Firebase flow.
-- Hot-seat-launch lands directly on a player-count picker (2/3/4/5) +
-  display-name entry per player, then enters the chosen game's table
-  activity in hot-seat mode.
-- Pass via Intent extras or a small `HotSeatConfig` singleton: list of
-  `Player` POJOs with synthesized uids (`p1`, `p2`, ...) and the active
-  player-uid pointer.
-- Modify `TeenPattiActivity` so it accepts a hot-seat mode flag. When set:
-  - The "local player" identity rotates after each action — i.e. `localUid`
-    becomes `engine.currentTurnUid()` after each turn submit.
-  - Between turns, show a full-screen "Pass to {nextName}, then tap" gate so
-    the previous player can't see the next player's hand.
-  - At showdown, reveal everyone's cards face-up.
-- Bots stay available as a separate "Demo (vs bots)" entry point, kept for
-  quick smoke-testing.
+User specifically wanted to play Bluff. Engine is still a stub.
 
-### 3. Bluff engine + UI
-
-User specifically wants to play Bluff in this round of testing.
-
-- Engine: deal full 52 across N players, leftover to first players in seat
-  order. State: hands per uid, central pile, last-claim (rank + count + true
-  cards), turn pointer.
+- Engine: deal 52 across N players, leftover to first players in seat order.
+  State: hands per uid, central pile, last-claim (rank + count + true cards),
+  turn pointer.
 - Actions: `PlayCards(rank, count, cardIds)`, `CallBluff(targetActionId)`,
   `Pass` (next-only mode only).
-- Two variations: `OPEN_CALL` (any player may call any time before next play
-  resolves) and `NEXT_ONLY` (only next player; once they play, prior claim
-  locks). Wire via `BluffVariation` strategy interface.
+- Two variations: `OPEN_CALL` (any player may call before next play resolves)
+  and `NEXT_ONLY` (only next player; once they play, prior claim locks). Wire
+  via a `BluffVariation` strategy interface.
 - Validate the player owns the cards being claimed. Hidden-info: stored true
-  ranks must not leak through the snapshot to non-claimer clients (until a
-  call resolves). For hot-seat mode this manifests as the "Pass to next" gate
-  hiding the just-played cards.
-- UI: spec calls for pile/discard center, "Play X cards as Y" composer,
-  "Bluff!" call button. Mirror the Teen Patti table layout style for
-  consistency.
+  ranks must NOT leak through `snapshot()` to non-claimer clients (until a
+  call resolves). For pass-and-play this manifests as the pass gate hiding
+  the just-played cards.
+- UI: pile/discard center, "Play X cards as Y" composer, "Bluff!" call button.
+  Mirror the Poker table layout (immersive mode, collapsible left dock,
+  bottom action row, AlertDialog for compose). Use the existing
+  `CollapsiblePanel` and `ChipRackView` shared components.
 
-### 4. Polish from this round
+### 2. Multi-device Firebase game-state sync
 
-- The `SchemaRenderer.listEditor()` currently displays the variation queue
-  read-only. Make it reorderable (drag handle or up/down arrows). Adding /
-  removing variations is also part of the spec (instructions.md §10.5).
-- Add a "Demo (vs bots)" button on Home for quick Teen Patti smoke test
-  (bypasses Firebase entirely — same code path as the activity's existing
-  demo mode but reachable from the UI).
+Blocked on Firebase project ownership (project belongs to a friend; user
+can't edit DB rules). When unblocked:
+
+- Wire `GameEngine.snapshot()` writes through `FirebaseRoomSync` after each
+  state change.
+- `restore()` on late-joiners and reconnects (currently a stub for poker).
+- Hidden-info filter: opponents' hole cards must be masked per-recipient
+  before going on the wire. The `holesPublic` flag is in the snapshot —
+  the network layer needs to honor it.
+
+### 3. Variation queue editor drag-reorder
+
+`SchemaRenderer.listEditor()` renders read-only with up/down/remove buttons
+already wired but no drag handle. Spec wants drag-reorder. Phase 2.
+
+### 4. Per-denomination chip drawables
+
+ChipRackView and BetBuilder currently draw colored ovals programmatically
+(or tint a single theme drawable). For visual polish, ship per-denom
+drawables: `bg_chip_{25,100,500,1000,5000}_{dev,balatro}.xml` and have
+`Theme.chipBg(denomination)` route to them. Royal Oak / Neon Pulse owned
+by other team members — don't touch.
+
+### 5. Apply Poker UX improvements to Teen Patti
+
+Poker now has: immersive mode, OnBackPressedDispatcher confirmation, in-place
+theme change (no `recreate()`), action history menu, `CollapsiblePanel`
+opponents dock, chip-tap raise dialog. Teen Patti is still on the older
+pattern. Port over once stable.
 
 ---
 
-## What NOT to do this round
+## What NOT to do
 
-- Do not touch Royal Oak or Neon Pulse themes. Those belong to the team.
-- Do not implement multi-device Firebase game-state sync. User does not own
-  the Firebase project. Wait until they have access or migrate to their own.
-- Do not implement Poker. Phase 4 in the spec; not on the user's near-term
-  list.
-- Do not build the cosmetic shop, leaderboard, game history, or chat. Out of
-  v1 scope per spec §13.
-- Do not add comments for what code does — only for non-obvious *why* (per
-  the project's commenting bar).
+- Don't touch Royal Oak or Neon Pulse themes — owned by team members.
+- Don't implement Firebase multi-device sync until the user migrates the
+  project. State so up front if asked.
+- Don't add comments for what code does — only for non-obvious *why*.
+- Don't add automation: humans tap everything (POST BLIND, RAISE, etc.). The
+  default `turn_timer` is 0 and `blind_mode` is `MANUAL` for this reason.
+- Don't add cosmetic shop, leaderboard, game history, or chat. Out of v1 scope.
 
 ---
 
-## Useful pointers when picking up
+## Useful pointers
 
-- Demo mode launch path: `TeenPattiActivity` with no `EXTRA_ROOM_ID` extra =
-  bots-only run.
-- The engine never imports Android. Keep it that way — UI observes via
-  `GameEngine.Listener.onStateChanged()`.
-- Adding a setting to a game's `RuleSchema` automatically renders a row via
-  `SchemaRenderer`. Don't hand-author settings UI per game.
-- All theme resource lookups go through `Theme` interface methods — don't
-  read `R.color.*` directly outside theme classes.
-- Build commands the user has been running:
+- **Demo (vs bots)** for Poker: Create Room → Poker (no room id path).
+- **Pass and Play**: Home → Pass and Play card → portrait stepper.
+- **Hand evaluation** is shared (`core/engine/HandEvaluator.bestOf7`). Poker's
+  `PokerHandRanker.evalHoldem` is a thin facade.
+- **Side pots** are computed via `SidePotCalculator.compute(commitments, notFolded)`.
+  Production-tested. Reuse for any all-in game.
+- **Adding a setting** to a game's `RuleSchema` automatically renders a row in
+  the pre-game settings UI via `SchemaRenderer`. Don't hand-author per-game settings UI.
+- **Adding a game** = create a `GameDefinition`, register in `GamesRegistry`.
+- **Theme resource lookups** must go through the `Theme` interface — never
+  `R.color.*` / `R.drawable.*` directly outside theme classes.
+- **CollapsiblePanel** + **ChipRackView** are reusable; pick them up for any
+  new table UI.
+- Build commands:
   - `./gradlew assembleDebug` — APK build
   - `./gradlew test` — JVM unit tests
-  - `./gradlew installDebug` — install on a connected device
+  - `./gradlew :app:testDebugUnitTest --tests "com.example.cardclash.games.poker.engine.*"` — poker tests only
+  - `./gradlew installDebug` — install on connected device

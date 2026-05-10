@@ -17,7 +17,7 @@ import com.example.cardclash.core.theme.Theme;
 import com.example.cardclash.core.theme.ThemePrefs;
 import com.example.cardclash.ui.common.ThemedActivity;
 import com.example.cardclash.ui.home.HomeActivity;
-import com.example.cardclash.ui.hotseat.HotSeatSetupActivity;
+import com.example.cardclash.ui.hotseat.PassAndPlayPickerActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -40,7 +40,7 @@ public class LoginActivity extends ThemedActivity {
         tvRegister.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class)));
         findViewById(R.id.btnHotSeat).setOnClickListener(v ->
-                startActivity(new Intent(this, HotSeatSetupActivity.class)));
+                startActivity(new Intent(this, PassAndPlayPickerActivity.class)));
     }
 
     private void applyThemeChrome() {

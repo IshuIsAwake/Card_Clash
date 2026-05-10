@@ -43,7 +43,15 @@ public class PassTheDeviceActivity extends ThemedActivity {
 
     @Override protected void onCreate(@Nullable Bundle s) {
         super.onCreate(s);
+        applyImmersive();
         setContentView(R.layout.activity_pass_the_device);
+
+        // Suppress back via OnBackPressedDispatcher — on Android 13+ the legacy
+        // onBackPressed override no longer fires for back gestures.
+        getOnBackPressedDispatcher().addCallback(this,
+                new androidx.activity.OnBackPressedCallback(true) {
+                    @Override public void handleOnBackPressed() { /* swallow */ }
+                });
 
         Theme t = ThemePrefs.activeTheme(this);
         String name  = getIntent().getStringExtra(EXTRA_PLAYER_NAME);
@@ -97,8 +105,19 @@ public class PassTheDeviceActivity extends ThemedActivity {
         });
     }
 
-    /** Suppress: misclicking back must not skip the handoff. */
-    @Override public void onBackPressed() { /* no-op */ }
+    private void applyImmersive() {
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        androidx.core.view.WindowInsetsControllerCompat ic =
+                new androidx.core.view.WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        ic.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+        ic.setSystemBarsBehavior(
+                androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+    }
+
+    @Override public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) applyImmersive();
+    }
 
     private Typeface safeFont(int fontRes) {
         if (fontRes == 0) return Typeface.DEFAULT;

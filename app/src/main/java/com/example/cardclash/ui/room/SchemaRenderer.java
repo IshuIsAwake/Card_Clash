@@ -139,7 +139,10 @@ public final class SchemaRenderer {
             box.addView(b, pickerLp(ctx));
         }
         refreshPickerSelection(box, active[0]);
-        return box;
+        android.widget.HorizontalScrollView scroller = new android.widget.HorizontalScrollView(ctx);
+        scroller.setHorizontalScrollBarEnabled(false);
+        scroller.addView(box);
+        return scroller;
     }
 
     private static View enumPicker(Context ctx, Setting s, RoomConfig cfg) {
@@ -158,7 +161,10 @@ public final class SchemaRenderer {
             box.addView(b, pickerLp(ctx));
         }
         refreshPickerSelection(box, cur);
-        return box;
+        android.widget.HorizontalScrollView scroller = new android.widget.HorizontalScrollView(ctx);
+        scroller.setHorizontalScrollBarEnabled(false);
+        scroller.addView(box);
+        return scroller;
     }
 
     private static Button pickerButton(Context ctx, String text) {
@@ -166,6 +172,9 @@ public final class SchemaRenderer {
         b.setText(text);
         b.setTextSize(13);
         b.setAllCaps(false);
+        b.setSingleLine(true);
+        b.setMaxLines(1);
+        b.setEllipsize(android.text.TextUtils.TruncateAt.END);
         b.setMinWidth(0);
         b.setMinimumWidth(0);
         b.setMinHeight(dp(ctx, 44));

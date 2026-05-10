@@ -16,7 +16,7 @@ import com.example.cardclash.R;
 import com.example.cardclash.core.theme.Theme;
 import com.example.cardclash.core.theme.ThemePrefs;
 import com.example.cardclash.ui.common.ThemedActivity;
-import com.example.cardclash.ui.hotseat.HotSeatSetupActivity;
+import com.example.cardclash.ui.hotseat.PassAndPlayPickerActivity;
 import com.example.cardclash.ui.room.CreateRoomActivity;
 import com.example.cardclash.ui.room.JoinRoomActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +46,7 @@ public class HomeActivity extends ThemedActivity {
         findViewById(R.id.cardJoin).setOnClickListener(v ->
                 startActivity(new Intent(this, JoinRoomActivity.class)));
         findViewById(R.id.cardHotSeat).setOnClickListener(v ->
-                startActivity(new Intent(this, HotSeatSetupActivity.class)));
+                startActivity(new Intent(this, PassAndPlayPickerActivity.class)));
         findViewById(R.id.btnProfile).setOnClickListener(v ->
                 startActivity(new Intent(this, ProfileActivity.class)));
     }

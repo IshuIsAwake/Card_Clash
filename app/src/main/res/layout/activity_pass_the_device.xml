@@ -49,11 +49,11 @@
 
         <Button
             android:id="@+id/btnContinue"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="CONTINUE"
-            app:layout_constraintWidth_percent="0.6" />
+            android:minHeight="56dp"
+            android:text="CONTINUE" />
 
         <TextView
             android:id="@+id/footer"

@@ -37,5 +37,5 @@ public final class ThemeRegistry {
 
     public static Collection<Theme> all() { return THEMES.values(); }
 
-    public static Theme defaultTheme() { return THEMES.get(ThemeId.DEVELOPER); }
+    public static Theme defaultTheme() { return THEMES.get(ThemeId.BALATRO); }
 }

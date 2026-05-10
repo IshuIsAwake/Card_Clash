@@ -70,7 +70,7 @@ public class BluffActivity extends ThemedActivity {
 
         hotSeat = getIntent().getBooleanExtra("hotseat", false) || HotSeatConfig.isActive();
         if (!hotSeat || HotSeatConfig.get() == null) {
-            Toast.makeText(this, "Bluff requires Hot Seat in this build.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bluff requires Pass and Play in this build.", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -92,7 +92,7 @@ public class BluffActivity extends ThemedActivity {
         });
 
         wireActions();
-        modeLabel.setText("BLUFF · HOT SEAT");
+        modeLabel.setText("BLUFF · PASS AND PLAY");
         renderRankPicker();
         launchPassGate(localUid);
     }

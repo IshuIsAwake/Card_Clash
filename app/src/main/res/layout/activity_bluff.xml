@@ -24,7 +24,7 @@
             android:id="@+id/modeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BLUFF · HOT SEAT"
+            android:text="BLUFF · PASS AND PLAY"
             android:letterSpacing="0.16"
             android:textStyle="bold"
             android:textSize="13sp" />

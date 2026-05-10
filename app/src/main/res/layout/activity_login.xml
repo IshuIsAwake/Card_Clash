@@ -90,7 +90,7 @@
             android:id="@+id/btnHotSeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HOT SEAT (OFFLINE)" />
+            android:text="PASS AND PLAY (OFFLINE)" />
 
     </LinearLayout>
 </ScrollView>

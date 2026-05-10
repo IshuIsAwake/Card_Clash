@@ -1,78 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/topbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/topbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="HOT SEAT"
-            android:letterSpacing="0.18"
-            android:textStyle="bold"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/topbarDot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  ·  "
-            android:textSize="14sp"
-            android:layout_marginStart="8dp" />
-
-        <TextView
-            android:id="@+id/topbarSubtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:letterSpacing="0.16"
-            android:textStyle="bold"
-            android:textSize="13sp" />
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/leftCol"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/topbar"
-        app:layout_constraintBottom_toTopOf="@id/btnStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rightCol"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintWidth_percent="0.42"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <LinearLayout
+            android:id="@+id/topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/topbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PASS AND PLAY"
+                android:letterSpacing="0.18"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/topbarDot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  ·  "
+                android:textSize="14sp"
+                android:layout_marginStart="8dp" />
+
+            <TextView
+                android:id="@+id/topbarSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:letterSpacing="0.16"
+                android:textStyle="bold"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/heroTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set up the table"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:id="@+id/gameSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/heroTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Single device.\nPass and play."
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:lineSpacingExtra="2dp"
-                android:layout_marginBottom="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,86 +74,64 @@
                 android:id="@+id/gamePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </LinearLayout>
-    </ScrollView>
-
-    <ScrollView
-        android:id="@+id/rightCol"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/topbar"
-        app:layout_constraintBottom_toTopOf="@id/btnStart"
-        app:layout_constraintStart_toEndOf="@id/leftCol"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PLAYERS"
-                android:letterSpacing="0.16"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="6dp" />
-
-            <LinearLayout
-                android:id="@+id/countPicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="18dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NAMES"
-                android:letterSpacing="0.16"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="6dp" />
-
-            <LinearLayout
-                android:id="@+id/nameRows"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="18dp" />
-
-            <TextView
-                android:id="@+id/rulesHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="RULES"
-                android:letterSpacing="0.16"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="2dp" />
-
-            <LinearLayout
-                android:id="@+id/schemaContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
         </LinearLayout>
-    </ScrollView>
 
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="DEAL"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.55" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PLAYERS"
+            android:letterSpacing="0.16"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/countPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAMES"
+            android:letterSpacing="0.16"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <LinearLayout
+            android:id="@+id/nameRows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="18dp" />
+
+        <TextView
+            android:id="@+id/rulesHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RULES"
+            android:letterSpacing="0.16"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp" />
+
+        <LinearLayout
+            android:id="@+id/schemaContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DEAL" />
+
+    </LinearLayout>
+</ScrollView>

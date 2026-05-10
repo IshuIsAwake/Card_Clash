@@ -54,11 +54,16 @@
             android:exported="false"
             android:screenOrientation="sensorLandscape" />
 
-        <!-- HOT SEAT (single-device) -->
+        <!-- PASS AND PLAY (single-device) -->
+        <activity
+            android:name=".ui.hotseat.PassAndPlayPickerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.hotseat.HotSeatSetupActivity"
             android:exported="false"
-            android:screenOrientation="sensorLandscape"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity

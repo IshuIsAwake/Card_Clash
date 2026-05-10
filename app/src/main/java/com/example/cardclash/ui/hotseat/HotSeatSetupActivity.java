@@ -36,18 +36,34 @@ import java.util.Map;
 
 public class HotSeatSetupActivity extends ThemedActivity {
 
+    public static final String EXTRA_PRESELECTED_GAME = "preselected_game";
+
     private static final String[] DEFAULT_NAMES = {"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"};
 
-    private GameType selectedGame = GameType.BLUFF;
+    private GameType selectedGame = GameType.POKER;
     private int playerCount = 3;
     private RoomConfig schemaCfg;
     private final List<EditText> nameEdits = new ArrayList<>();
+    private boolean gamePreSelected;
 
     @Override protected void onCreate(@Nullable Bundle s) {
         super.onCreate(s);
         setContentView(R.layout.activity_hotseat_setup);
+
+        String pre = getIntent().getStringExtra(EXTRA_PRESELECTED_GAME);
+        if (pre != null) {
+            try {
+                selectedGame = GameType.valueOf(pre);
+                gamePreSelected = true;
+            } catch (IllegalArgumentException ignored) {}
+        }
+        if (gamePreSelected) {
+            View gameSection = findViewById(R.id.gameSection);
+            if (gameSection != null) gameSection.setVisibility(View.GONE);
+        }
+
         applyThemeToStaticText();
-        renderGamePicker();
+        if (!gamePreSelected) renderGamePicker();
         renderCountPicker();
         rebuildNameRows();
         renderSchema();
@@ -90,7 +106,7 @@ public class HotSeatSetupActivity extends ThemedActivity {
     private void renderGamePicker() {
         LinearLayout box = findViewById(R.id.gamePicker);
         box.removeAllViews();
-        for (GameType g : Arrays.asList(GameType.BLUFF, GameType.TEEN_PATTI)) {
+        for (GameType g : Arrays.asList(GameType.BLUFF, GameType.TEEN_PATTI, GameType.POKER)) {
             Button b = pickerButton(g.displayName);
             b.setTag(g);
             b.setOnClickListener(v -> {
@@ -269,11 +285,12 @@ public class HotSeatSetupActivity extends ThemedActivity {
     }
 
     private void start() {
+        long startingChips = schemaCfg != null ? schemaCfg.longVal("buy_in", 1000) : 1000;
         List<Player> roster = new ArrayList<>();
         for (int i = 0; i < playerCount; i++) {
             String n = nameEdits.get(i).getText().toString().trim();
             if (n.isEmpty()) n = DEFAULT_NAMES[i];
-            roster.add(new Player("p" + (i + 1), n, i, 1000, i == 0));
+            roster.add(new Player("p" + (i + 1), n, i, startingChips, i == 0));
         }
         Map<String, Object> overrides = new HashMap<>();
         if (schemaCfg != null) overrides.putAll(schemaCfg.values);
